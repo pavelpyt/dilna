@@ -1,0 +1,32 @@
+<%= form_with model: job, class: "space-y-4" do |form| %>
+  <%= render "shared/form_errors", record: job %>
+
+  <div>
+    <%= form.label :client_id, class: "field-label" %>
+    <%= form.collection_select :client_id, clients, :id, :name, { include_blank: "Vyber klienta" }, class: "field-input" %>
+  </div>
+
+  <div>
+    <%= form.label :property_id, class: "field-label" %>
+    <% if job.client %>
+      <%= form.select :property_id, property_options_for_select(job.client), { include_blank: "Bez konkrétní adresy" }, class: "field-input" %>
+    <% else %>
+      <p class="text-[13px] text-ink-soft">Místo vybereš po uložení, až bude jasný klient.</p>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.label :title, class: "field-label" %>
+    <%= form.text_field :title, placeholder: "Havárie — prasklá trubka", class: "field-input" %>
+  </div>
+
+  <div>
+    <%= form.label :description, class: "field-label" %>
+    <%= form.text_area :description, rows: 4, class: "field-input" %>
+  </div>
+
+  <div class="flex gap-2.5 pt-1">
+    <%= form.submit class: "btn btn-primary" %>
+    <%= link_to "Zrušit", job.persisted? ? job : jobs_path, class: "btn btn-ghost" %>
+  </div>
+<% end %>

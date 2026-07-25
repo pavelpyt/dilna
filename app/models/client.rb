@@ -4,6 +4,7 @@ class Client < ApplicationRecord
   belongs_to :account
   has_many :properties, dependent: :destroy
   has_many :contacts, dependent: :destroy
+  has_many :jobs, dependent: :destroy
 
   validates :name, presence: true
   validates :client_type, inclusion: { in: CLIENT_TYPES }

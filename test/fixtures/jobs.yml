@@ -1,0 +1,15 @@
+havarie:
+  account: novak
+  client: u_kotvy
+  property: u_kotvy_provozovna
+  number: "2026-0001"
+  title: Havárie — prasklá trubka
+  status: in_progress
+
+baterie:
+  account: novak
+  client: svobodova
+  property: svobodova_byt
+  number: "2026-0002"
+  title: Výměna baterie v koupelně
+  status: approved

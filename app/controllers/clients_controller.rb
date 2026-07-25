@@ -9,6 +9,7 @@ class ClientsController < ApplicationController
   def show
     @properties = @client.properties.order(:label, :street)
     @contacts = @client.contacts.order(:last_name, :first_name)
+    @jobs = @client.jobs.includes(:property).newest_first
   end
 
   def new

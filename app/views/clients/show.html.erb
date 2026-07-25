@@ -3,6 +3,7 @@
 <% content_for :page_title, @client.name %>
 <% content_for :page_actions do %>
   <%= link_to "Upravit", edit_client_path(@client), class: "btn btn-ghost btn-sm" %>
+  <%= link_to "Nová zakázka", new_job_path(client_id: @client.id), class: "btn btn-primary btn-sm" %>
 <% end %>
 
 <div class="mb-6">
@@ -28,6 +29,26 @@
 
 <div class="grid gap-4 lg:grid-cols-[1.6fr_1fr]">
   <div class="space-y-4">
+    <%= render CardComponent.new(title: "Historie zakázek", padded: false) do %>
+      <div class="list-rows">
+        <% @jobs.each do |job| %>
+          <%= link_to job, class: "list-row" do %>
+            <div class="min-w-0 flex-1">
+              <b class="block text-[14.5px] font-semibold"><%= job.title %></b>
+              <span class="font-mono text-[12.5px] text-ink-soft">
+                #<%= job.number %> · <%= l(job.created_at.to_date, format: :default) %>
+              </span>
+            </div>
+            <%= render TagComponent.new(label: job_status_label(job), tone: job_status_tone(job)) %>
+          <% end %>
+        <% end %>
+
+        <% if @jobs.empty? %>
+          <p class="empty-state">Klient zatím nemá žádnou zakázku.</p>
+        <% end %>
+      </div>
+    <% end %>
+
     <%= render CardComponent.new(title: "Poznámky") do %>
       <% if @client.note.present? %>
         <p class="whitespace-pre-line text-[13.5px]"><%= @client.note %></p>

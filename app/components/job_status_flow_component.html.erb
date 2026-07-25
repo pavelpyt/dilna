@@ -1,0 +1,19 @@
+<div class="flex items-center gap-1 overflow-x-auto pb-1">
+  <% steps.each_with_index do |step, index| %>
+    <% if index.positive? %>
+      <span class="h-0.5 w-5 flex-none <%= step[:state] == :todo ? 'bg-line-strong' : 'bg-paid' %>"></span>
+    <% end %>
+
+    <div class="flex flex-none items-center gap-2">
+      <% case step[:state] %>
+      <% when :done %>
+        <span class="grid size-[22px] place-items-center rounded-full border-2 border-paid bg-paid font-mono text-[10px] font-bold text-white">✓</span>
+      <% when :current %>
+        <span class="grid size-[22px] place-items-center rounded-full border-2 border-petrol bg-petrol font-mono text-[10px] font-bold text-white ring-4 ring-petrol-pale">●</span>
+        <b class="whitespace-nowrap text-xs font-semibold text-petrol-ink"><%= t("jobs.statuses.#{step[:status]}") %></b>
+      <% else %>
+        <span class="grid size-[22px] place-items-center rounded-full border-2 border-line-strong bg-surface font-mono text-[10px] font-bold text-ink-soft"><%= step[:number] %></span>
+      <% end %>
+    </div>
+  <% end %>
+</div>

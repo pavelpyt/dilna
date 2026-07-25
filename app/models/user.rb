@@ -6,6 +6,9 @@ class User < ApplicationRecord
 
   belongs_to :account
 
+  has_many :notes, dependent: :destroy
+  has_many :job_photos, dependent: :destroy
+
   # Při registraci vzniká firma i její první uživatel jedním uložením.
   accepts_nested_attributes_for :account
 

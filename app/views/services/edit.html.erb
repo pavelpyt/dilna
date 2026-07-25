@@ -1,0 +1,9 @@
+<% content_for :title, "Úprava položky ceníku — Dílna" %>
+<% content_for :breadcrumb, "Ceník" %>
+<% content_for :page_title, "Úprava položky ceníku" %>
+
+<div class="max-w-[640px]">
+  <%= render CardComponent.new do %>
+    <%= render "form", service: @service %>
+  <% end %>
+</div>
