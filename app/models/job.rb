@@ -32,6 +32,7 @@ class Job < ApplicationRecord
   belongs_to :client
   belongs_to :property, optional: true
 
+  has_many :visits, -> { order(:starts_at) }, dependent: :destroy
   has_many :job_items, -> { order(:position, :id) }, dependent: :destroy
   has_many :notes, -> { order(created_at: :desc) }, dependent: :destroy
   has_many :job_photos, -> { order(:created_at) }, dependent: :destroy

@@ -3,6 +3,7 @@ class Account < ApplicationRecord
   has_many :clients, dependent: :destroy
   has_many :services, dependent: :destroy
   has_many :jobs, dependent: :destroy
+  has_many :visits, through: :jobs
 
   validates :name, presence: true
   validates :slug, presence: true, uniqueness: true,

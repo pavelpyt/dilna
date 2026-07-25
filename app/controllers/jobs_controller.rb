@@ -14,6 +14,9 @@ class JobsController < ApplicationController
     @new_note = @job.notes.new
     @new_job_item = @job.job_items.new(quantity: 1)
     @available_services = current_account.services.available
+    @visits = @job.visits.includes(:user)
+    @new_visit = @job.visits.new(starts_at: Time.current.tomorrow.change(hour: 8), ends_at: Time.current.tomorrow.change(hour: 10))
+    @technicians = current_account.users.order(:last_name, :first_name)
   end
 
   def new

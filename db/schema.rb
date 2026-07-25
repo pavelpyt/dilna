@@ -10,8 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_25_205338) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_25_210623) do
   # These are extensions that must be enabled in order to support this database
+  enable_extension "btree_gist"
   enable_extension "pg_catalog.plpgsql"
 
   create_table "accounts", force: :cascade do |t|
@@ -177,6 +178,21 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_25_205338) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "visits", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.timestamptz "ends_at", null: false
+    t.bigint "job_id", null: false
+    t.text "note"
+    t.timestamptz "starts_at", null: false
+    t.string "status", default: "planned", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["job_id"], name: "index_visits_on_job_id"
+    t.index ["starts_at"], name: "index_visits_on_starts_at"
+    t.index ["user_id"], name: "index_visits_on_user_id"
+    t.exclusion_constraint "user_id WITH =, tstzrange(starts_at, ends_at) WITH &&", using: :gist, name: "visits_do_not_overlap_for_one_technician"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "clients", "accounts"
@@ -193,4 +209,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_25_205338) do
   add_foreign_key "properties", "clients"
   add_foreign_key "services", "accounts"
   add_foreign_key "users", "accounts"
+  add_foreign_key "visits", "jobs"
+  add_foreign_key "visits", "users"
 end

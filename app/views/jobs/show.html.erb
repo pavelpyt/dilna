@@ -128,6 +128,37 @@
       <% end %>
     <% end %>
 
+    <%= render CardComponent.new(title: "Termíny") do %>
+      <div class="mb-4 space-y-2">
+        <% @visits.each do |visit| %>
+          <div class="flex items-center gap-2.5 border-b border-line pb-2 last:border-b-0">
+            <% if visit.user %>
+              <%= render AvatarComponent.new(person: visit.user, size: :small) %>
+            <% end %>
+            <div class="min-w-0 flex-1">
+              <b class="block text-[13px] font-semibold"><%= l(visit.starts_at, format: :short) %>–<%= l(visit.ends_at, format: :hour_and_minute) %></b>
+              <span class="text-[12px] text-ink-soft"><%= visit.user&.full_name || "Nepřiřazeno" %></span>
+            </div>
+            <%= button_to "×", job_visit_path(@job, visit), method: :delete,
+                          class: "px-2 text-ink-soft hover:text-over",
+                          form: { data: { turbo_confirm: "Zrušit termín?" } } %>
+          </div>
+        <% end %>
+
+        <% if @visits.empty? %>
+          <p class="text-sm text-ink-soft">Zakázka zatím nemá naplánovaný termín.</p>
+        <% end %>
+      </div>
+
+      <%= form_with model: [ @job, @new_visit ], class: "space-y-3 border-t border-line pt-4" do |form| %>
+        <p class="mono-label">Naplánovat termín</p>
+        <%= form.collection_select :user_id, @technicians, :id, :full_name, { include_blank: "Nepřiřazeno" }, class: "field-input" %>
+        <%= form.datetime_local_field :starts_at, class: "field-input" %>
+        <%= form.datetime_local_field :ends_at, class: "field-input" %>
+        <%= form.submit "Naplánovat", class: "btn btn-ghost btn-sm" %>
+      <% end %>
+    <% end %>
+
     <%= render CardComponent.new(title: "Zákazník") do %>
       <b class="font-display text-[15px]"><%= @job.client.name %></b>
       <div class="meta-line mt-2">
