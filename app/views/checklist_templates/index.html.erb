@@ -1,0 +1,26 @@
+<% content_for :title, "Šablony checklistů — Dílna" %>
+<% content_for :breadcrumb, "Nastavení" %>
+<% content_for :page_title, "Šablony checklistů" %>
+<% content_for :page_actions do %>
+  <%= link_to new_checklist_template_path, class: "btn btn-primary btn-sm" do %>
+    <%= render IconComponent.new(name: :plus, css_class: "size-4", stroke_width: "2") %>
+    Nová šablona
+  <% end %>
+<% end %>
+
+<%= render CardComponent.new(padded: false) do %>
+  <div class="list-rows">
+    <% @checklist_templates.each do |checklist_template| %>
+      <%= link_to edit_checklist_template_path(checklist_template), class: "list-row" do %>
+        <div class="min-w-0 flex-1">
+          <b class="block text-[14.5px] font-semibold"><%= checklist_template.name %></b>
+          <span class="text-[12.5px] text-ink-soft"><%= checklist_template.checklist_template_items.size %> položek</span>
+        </div>
+      <% end %>
+    <% end %>
+
+    <% if @checklist_templates.empty? %>
+      <p class="empty-state">Zatím žádná šablona. Hodí se na věci, které děláš pořád stejně.</p>
+    <% end %>
+  </div>
+<% end %>

@@ -7,6 +7,7 @@ class User < ApplicationRecord
   belongs_to :account
 
   has_many :visits, dependent: :nullify
+  has_many :time_entries, dependent: :destroy
   has_many :notes, dependent: :destroy
   has_many :job_photos, dependent: :destroy
 
@@ -23,6 +24,14 @@ class User < ApplicationRecord
 
   def staff?
     role == "staff"
+  end
+
+  def running_time_entry
+    time_entries.running.first
+  end
+
+  def hours_worked_between(from, to)
+    time_entries.finished.started_between(from, to).sum(&:duration_in_hours).round(2)
   end
 
   def full_name

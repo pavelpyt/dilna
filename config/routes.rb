@@ -15,7 +15,19 @@ Rails.application.routes.draw do
     resources :job_photos, only: [ :create, :destroy ]
     resources :visits, only: [ :create, :destroy ]
     resources :quotes, only: [ :create ]
+    resources :checklist_items, only: [ :create, :update, :destroy ]
+    resources :job_checklists, only: [ :create ]
+    resources :time_entries, only: [ :create ]
   end
+
+  resources :time_entries, only: [ :create, :update ]
+  resources :checklist_templates, except: [ :show ]
+
+  get "dnesek", to: "today#show", as: :today
+
+  # Správa týmu je pod /tym, protože /users si drží Devise pro registraci.
+  get "tym/export", to: "team_hours_exports#show", as: :team_hours_export
+  resources :users, path: "tym", except: [ :show ]
 
   get "kalendar", to: "calendar#show", as: :calendar
   resources :visits, only: [ :index, :update ]

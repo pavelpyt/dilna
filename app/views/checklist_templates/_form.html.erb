@@ -1,0 +1,36 @@
+<%= form_with model: checklist_template, class: "space-y-4" do |form| %>
+  <%= render "shared/form_errors", record: checklist_template %>
+
+  <div>
+    <%= form.label :name, class: "field-label" %>
+    <%= form.text_field :name, placeholder: "Havárie — voda", class: "field-input" %>
+  </div>
+
+  <div>
+    <span class="field-label">Položky</span>
+    <div class="space-y-2">
+      <%= form.fields_for :checklist_template_items do |item_form| %>
+        <div class="flex items-center gap-2">
+          <%= item_form.text_field :label, placeholder: "Uzavřít přívod vody", class: "field-input" %>
+          <% if item_form.object.persisted? %>
+            <label class="flex flex-none items-center gap-1.5 text-[12px] text-ink-soft">
+              <%= item_form.check_box :_destroy, class: "size-4 rounded border-line-strong" %>
+              smazat
+            </label>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+    <p class="mt-1 text-[12px] text-ink-soft">Prázdné řádky se neuloží. Další přidáš po uložení.</p>
+  </div>
+
+  <div class="flex gap-2.5 pt-1">
+    <%= form.submit class: "btn btn-primary" %>
+    <%= link_to "Zrušit", checklist_templates_path, class: "btn btn-ghost" %>
+    <% if checklist_template.persisted? %>
+      <%= button_to "Smazat šablonu", checklist_template_path(checklist_template), method: :delete,
+                    class: "btn btn-ghost ml-auto",
+                    form: { data: { turbo_confirm: "Opravdu smazat tuhle šablonu?" } } %>
+    <% end %>
+  </div>
+<% end %>

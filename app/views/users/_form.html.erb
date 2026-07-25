@@ -1,0 +1,47 @@
+<%= form_with model: user, class: "space-y-4" do |form| %>
+  <%= render "shared/form_errors", record: user %>
+
+  <div class="grid gap-4 md:grid-cols-2">
+    <div>
+      <%= form.label :first_name, class: "field-label" %>
+      <%= form.text_field :first_name, class: "field-input" %>
+    </div>
+    <div>
+      <%= form.label :last_name, class: "field-label" %>
+      <%= form.text_field :last_name, class: "field-input" %>
+    </div>
+  </div>
+
+  <div>
+    <%= form.label :email, class: "field-label" %>
+    <%= form.email_field :email, class: "field-input" %>
+  </div>
+
+  <div>
+    <%= form.label :phone, class: "field-label" %>
+    <%= form.telephone_field :phone, class: "field-input" %>
+  </div>
+
+  <div>
+    <%= form.label :role, class: "field-label" %>
+    <%= form.select :role, user_role_options, {}, class: "field-input" %>
+  </div>
+
+  <div>
+    <%= form.label :password, "Heslo", class: "field-label" %>
+    <%= form.password_field :password, class: "field-input", autocomplete: "new-password" %>
+    <p class="mt-1 text-[12px] text-ink-soft">
+      <%= user.persisted? ? "Nech prázdné, pokud heslo měnit nechceš." : "Heslo si člen týmu může potom změnit sám." %>
+    </p>
+  </div>
+
+  <div class="flex gap-2.5 pt-1">
+    <%= form.submit class: "btn btn-primary" %>
+    <%= link_to "Zrušit", users_path, class: "btn btn-ghost" %>
+    <% if user.persisted? && user != current_user %>
+      <%= button_to "Odebrat z týmu", user_path(user), method: :delete,
+                    class: "btn btn-ghost ml-auto",
+                    form: { data: { turbo_confirm: "Opravdu odebrat #{user.full_name} z týmu?" } } %>
+    <% end %>
+  </div>
+<% end %>

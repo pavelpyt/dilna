@@ -1,0 +1,48 @@
+<% content_for :title, "Dnešek — Dílna" %>
+<% content_for :breadcrumb, l(Date.current, format: "%A · %-d. %B").capitalize %>
+<% content_for :page_title, "Dnešek" %>
+
+<div class="mb-6 grid gap-4 md:grid-cols-2">
+  <%= render StatCardComponent.new(label: "Dnešní termíny", value: @visits_today.size) do %>
+    přiřazené tobě
+  <% end %>
+  <%= render StatCardComponent.new(label: "Tento týden", value: "#{number_with_precision(@hours_this_week, strip_insignificant_zeros: true)} h") do %>
+    odpracováno
+  <% end %>
+</div>
+
+<%= render CardComponent.new(title: "Docházka") do %>
+  <% if @running_time_entry %>
+    <p class="mb-3 text-sm">
+      Naskočil jsi v <b><%= l(@running_time_entry.started_at, format: :hour_and_minute) %></b><%= " na zakázce #{@running_time_entry.job.title}" if @running_time_entry.job %>.
+    </p>
+    <%= button_to "Ukončit docházku", time_entry_path(@running_time_entry), method: :patch,
+                  class: "btn btn-primary w-full justify-center" %>
+  <% else %>
+    <p class="mb-3 text-sm text-ink-soft">Zatím jsi dnes nenaskočil.</p>
+    <%= button_to "Naskočit do práce", time_entries_path, class: "btn btn-primary w-full justify-center" %>
+  <% end %>
+<% end %>
+
+<div class="mt-4">
+  <%= render CardComponent.new(title: "Tvoje dnešní termíny", padded: false) do %>
+    <div class="list-rows">
+      <% @visits_today.each do |visit| %>
+        <%= link_to visit.job, class: "list-row" do %>
+          <span class="w-[52px] flex-none font-mono text-[13px] font-bold"><%= l(visit.starts_at, format: :hour_and_minute) %></span>
+          <div class="min-w-0 flex-1">
+            <b class="block text-[14.5px] font-semibold"><%= visit.job.title %></b>
+            <span class="text-[12.5px] text-ink-soft">
+              <%= visit.job.client.name %><%= " · #{visit.job.property.full_address}" if visit.job.property %>
+            </span>
+          </div>
+          <%= render TagComponent.new(label: job_status_label(visit.job), tone: job_status_tone(visit.job)) %>
+        <% end %>
+      <% end %>
+
+      <% if @visits_today.empty? %>
+        <p class="empty-state">Na dnešek nemáš žádný termín.</p>
+      <% end %>
+    </div>
+  <% end %>
+</div>

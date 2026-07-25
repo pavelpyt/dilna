@@ -1,0 +1,5 @@
+owner_dnes:
+  user: owner
+  job: havarie
+  started_at: <%= 3.hours.ago.iso8601 %>
+  ended_at: <%= 1.hour.ago.iso8601 %>
