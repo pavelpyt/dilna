@@ -1,0 +1,17 @@
+owner:
+  account: novak
+  first_name: Petr
+  last_name: Novák
+  phone: "+420 602 118 340"
+  email: petr@novak-topeni.cz
+  encrypted_password: <%= Devise::Encryptor.digest(User, "heslo1234") %>
+  role: owner
+
+technician:
+  account: novak
+  first_name: Tomáš
+  last_name: Dvořák
+  phone: "+420 605 221 118"
+  email: tomas@novak-topeni.cz
+  encrypted_password: <%= Devise::Encryptor.digest(User, "heslo1234") %>
+  role: staff

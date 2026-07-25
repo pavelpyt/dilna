@@ -1,0 +1,12 @@
+<div class="rounded-card border border-line bg-surface shadow-card">
+  <% if @title.present? %>
+    <div class="flex items-center justify-between gap-3 border-b border-line px-[18px] py-4">
+      <h3 class="font-display text-[15px] font-bold tracking-[0.01em]"><%= @title %></h3>
+      <%= header_actions %>
+    </div>
+  <% end %>
+
+  <div class="<%= body_class %>">
+    <%= content %>
+  </div>
+</div>

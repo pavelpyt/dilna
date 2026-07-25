@@ -1,0 +1,27 @@
+<% content_for :title, "Nové heslo — Dílna" %>
+
+<%= render CardComponent.new do %>
+  <h2 class="mb-5 font-display text-lg font-bold">Nastavit nové heslo</h2>
+
+  <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |form| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
+    <%= form.hidden_field :reset_password_token %>
+
+    <div class="mb-4">
+      <%= form.label :password, "Nové heslo", class: "field-label" %>
+      <%= form.password_field :password, autofocus: true, autocomplete: "new-password", class: "field-input" %>
+      <p class="mt-1 text-[12px] text-ink-soft">Minimálně <%= @minimum_password_length %> znaků.</p>
+    </div>
+
+    <div class="mb-5">
+      <%= form.label :password_confirmation, "Nové heslo znovu", class: "field-label" %>
+      <%= form.password_field :password_confirmation, autocomplete: "new-password", class: "field-input" %>
+    </div>
+
+    <%= form.submit "Změnit heslo", class: "btn btn-primary w-full justify-center" %>
+  <% end %>
+
+  <div class="mt-5 border-t border-line pt-4 text-[13px] text-ink-soft">
+    <%= render "devise/shared/links" %>
+  </div>
+<% end %>

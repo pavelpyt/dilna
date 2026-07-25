@@ -1,0 +1,28 @@
+<% content_for :title, "Přihlášení — Dílna" %>
+
+<%= render CardComponent.new do %>
+  <h2 class="mb-5 font-display text-lg font-bold">Přihlášení</h2>
+
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |form| %>
+    <div class="mb-4">
+      <%= form.label :email, class: "field-label" %>
+      <%= form.email_field :email, autofocus: true, autocomplete: "email", class: "field-input" %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :password, class: "field-label" %>
+      <%= form.password_field :password, autocomplete: "current-password", class: "field-input" %>
+    </div>
+
+    <label class="mb-5 flex items-center gap-2 text-[13px] text-ink-soft">
+      <%= form.check_box :remember_me, class: "size-4 rounded border-line-strong" %>
+      Zůstat přihlášený
+    </label>
+
+    <%= form.submit "Přihlásit se", class: "btn btn-primary w-full justify-center" %>
+  <% end %>
+
+  <div class="mt-5 border-t border-line pt-4 text-[13px] text-ink-soft">
+    <%= render "devise/shared/links" %>
+  </div>
+<% end %>

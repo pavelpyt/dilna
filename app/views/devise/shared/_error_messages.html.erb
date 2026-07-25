@@ -1,0 +1,10 @@
+<% if resource.errors.any? %>
+  <div class="mb-4 rounded-card border border-over-edge bg-over-pale px-4 py-3 text-[12.5px] text-over" data-turbo-temporary>
+    <b class="mb-1 block">Formulář se nepodařilo odeslat:</b>
+    <ul class="list-disc pl-4">
+      <% resource.errors.full_messages.each do |error_message| %>
+        <li><%= error_message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

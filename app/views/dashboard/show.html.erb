@@ -1,0 +1,13 @@
+<% content_for :title, "Přehled — Dílna" %>
+<% content_for :breadcrumb, l(Date.current, format: "%A · %-d. %B").capitalize %>
+<% content_for :page_title, @greeting %>
+
+<%= render CardComponent.new(title: "Vítej v Dílně") do %>
+  <p class="text-sm text-ink-soft">
+    Firma <b class="text-ink"><%= current_account.name %></b> je založená a jsi přihlášený jako
+    <b class="text-ink"><%= t("users.roles.#{current_user.role}").downcase %></b>.
+  </p>
+  <p class="mt-3 text-sm text-ink-soft">
+    Zatím tu nejsou žádní klienti ani zakázky — přehled se naplní, jakmile začneš pracovat.
+  </p>
+<% end %>
