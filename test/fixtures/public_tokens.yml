@@ -1,0 +1,9 @@
+baterie_odkaz:
+  job: baterie_naceneno
+  token: testovaci-token-pro-client-hub
+  expires_at: <%= 60.days.from_now.iso8601 %>
+
+propadly_odkaz:
+  job: havarie
+  token: propadly-token
+  expires_at: <%= 1.day.ago.iso8601 %>

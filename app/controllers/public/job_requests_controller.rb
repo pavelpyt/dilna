@@ -1,5 +1,7 @@
 module Public
   class JobRequestsController < BaseController
+    before_action :set_account_from_slug
+
     def new
       @job_request_form = JobRequestForm.new
     end
@@ -20,6 +22,10 @@ module Public
     end
 
     private
+
+    def set_account_from_slug
+      Current.account = Account.find_by!(slug: params[:account_slug])
+    end
 
     def job_request_form_params
       params.expect(job_request_form: [ :client_name, :email, :phone, :street, :city,

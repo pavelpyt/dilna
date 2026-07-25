@@ -33,6 +33,8 @@ class Job < ApplicationRecord
   belongs_to :property, optional: true
 
   has_many :visits, -> { order(:starts_at) }, dependent: :destroy
+  has_many :quotes, dependent: :destroy
+  has_many :public_tokens, dependent: :destroy
   has_many :job_items, -> { order(:position, :id) }, dependent: :destroy
   has_many :notes, -> { order(created_at: :desc) }, dependent: :destroy
   has_many :job_photos, -> { order(:created_at) }, dependent: :destroy
@@ -64,6 +66,30 @@ class Job < ApplicationRecord
 
   def on_main_flow?
     MAIN_FLOW_STATUSES.include?(status)
+  end
+
+  # Nabídka, kterou zákazník vidí v client hubu — vždycky ta poslední.
+  def current_quote
+    quotes.order(:created_at).last
+  end
+
+  # Z naceněné zakázky udělá nabídku a posune ji do stavu „nabídka odeslána".
+  def issue_quote!(valid_until: Quote::DEFAULT_VALIDITY_IN_DAYS.days.from_now.to_date)
+    transaction do
+      quote = quotes.create!(status: "sent", valid_until: valid_until, sent_at: Time.current)
+      change_status_to!("quote_sent")
+      quote
+    end
+  end
+
+  # Odkaz do client hubu — jeden platný token na zakázku stačí.
+  def public_token_for_client_hub
+    public_tokens.still_valid.order(:created_at).last ||
+      public_tokens.create!(expires_at: PublicToken::DEFAULT_VALIDITY_IN_DAYS.days.from_now)
+  end
+
+  def next_visit
+    visits.where("starts_at > ?", Time.current).order(:starts_at).first
   end
 
   def total_without_vat

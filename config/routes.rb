@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     resources :notes, only: [ :create, :destroy ]
     resources :job_photos, only: [ :create, :destroy ]
     resources :visits, only: [ :create, :destroy ]
+    resources :quotes, only: [ :create ]
   end
 
   get "kalendar", to: "calendar#show", as: :calendar
@@ -27,6 +28,10 @@ Rails.application.routes.draw do
   get "poptavka/:account_slug", to: "public/job_requests#new", as: :public_job_request
   post "poptavka/:account_slug", to: "public/job_requests#create", as: :public_job_requests
   get "poptavka/:account_slug/odeslano", to: "public/job_requests#sent", as: :public_job_request_sent
+
+  # Client hub — zákazníkova stránka jedné zakázky. V adrese je jen náhodný token.
+  get "z/:token", to: "public/client_hub#show", as: :client_hub
+  post "z/:token/nabidka", to: "public/quote_decisions#create", as: :client_hub_quote_decision
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.

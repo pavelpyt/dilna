@@ -8,11 +8,15 @@ class JobTest < ActiveSupport::TestCase
     assert_includes job.errors.attribute_names, :title
   end
 
-  test "přidělí číslo zakázky v pořadí za daný rok" do
-    job = accounts(:novak).jobs.create!(client: clients(:u_kotvy), title: "Nová zakázka")
+  test "čísluje zakázky po sobě v rámci roku a firmy" do
+    fresh_account = Account.create!(name: "Nová firma")
+    fresh_client = fresh_account.clients.create!(name: "První klient")
 
-    # Ve fixtures už jsou zakázky 0001 a 0002, další v řadě je tedy 0003.
-    assert_equal "#{Date.current.year}-0003", job.number
+    first_job = fresh_account.jobs.create!(client: fresh_client, title: "První zakázka")
+    second_job = fresh_account.jobs.create!(client: fresh_client, title: "Druhá zakázka")
+
+    assert_equal "#{Date.current.year}-0001", first_job.number
+    assert_equal "#{Date.current.year}-0002", second_job.number
   end
 
   test "nepovolí místo jiného klienta" do

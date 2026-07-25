@@ -17,6 +17,8 @@ class JobsController < ApplicationController
     @visits = @job.visits.includes(:user)
     @new_visit = @job.visits.new(starts_at: Time.current.tomorrow.change(hour: 8), ends_at: Time.current.tomorrow.change(hour: 10))
     @technicians = current_account.users.order(:last_name, :first_name)
+    @quote = @job.current_quote
+    @client_hub_url = client_hub_url(@job.public_token_for_client_hub.token)
   end
 
   def new
