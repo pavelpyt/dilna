@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+/*
+  Design tokeny převzaté z UI prototypu (ui_prototyp.html).
+  Tailwind v4 z nich vyrobí utility třídy: bg-surface, text-ink-soft, border-line, font-display, …
+*/
+@theme {
+  --color-ground: #E6E4DB;
+  --color-surface: #F5F3ED;
+  --color-surface-muted: #EFEDE5;
+  --color-ink: #1B1E1C;
+  --color-ink-soft: #5A5D57;
+  --color-line: #CFCCC1;
+  --color-line-strong: #B8B5A8;
+  --color-petrol: #0C6E6B;
+  --color-petrol-ink: #084F4D;
+  --color-petrol-pale: #DFF0EF;
+  --color-petrol-edge: #9FC9C7;
+  --color-live: #CDE84A;
+
+  --color-paid: #2E7D46;
+  --color-paid-pale: #EAF3EC;
+  --color-paid-edge: #B6D3BE;
+  --color-due: #8A6D08;
+  --color-due-pale: #F4EFDD;
+  --color-due-edge: #DBCE9A;
+  --color-over: #B23A2E;
+  --color-over-pale: #F6E6E3;
+  --color-over-edge: #E0B4AE;
+
+  /* barvy techniků v kalendáři a na avatarech */
+  --color-crew-green: #3B6E4A;
+  --color-crew-purple: #6E5B8A;
+
+  --font-display: "Archivo", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --radius-card: 8px;
+
+  --shadow-card: 0 1px 0 rgba(27, 30, 28, .04), 0 2px 8px rgba(27, 30, 28, .06);
+}
+
+@layer base {
+  body {
+    font-family: var(--font-body);
+    background-color: var(--color-ground);
+    color: var(--color-ink);
+    line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+/*
+  Primitivy z prototypu. Jsou to čistě vizuální třídy bez logiky — proto CSS,
+  ne ViewComponent. Cokoliv, co se rozhoduje podle dat (stavový štítek, avatar),
+  je komponenta v app/components.
+*/
+@layer components {
+  .btn {
+    @apply inline-flex items-center gap-2 rounded-md border border-ink bg-ink px-4 py-2
+           text-sm font-semibold text-surface transition hover:opacity-90 active:translate-y-px;
+  }
+
+  .btn-primary {
+    @apply border-petrol bg-petrol text-white;
+  }
+
+  .btn-ghost {
+    @apply border-line-strong bg-transparent text-ink hover:bg-surface-muted hover:opacity-100;
+  }
+
+  .btn-sm {
+    @apply px-3 py-1.5 text-xs;
+  }
+
+  .btn svg {
+    @apply size-4 stroke-current;
+  }
+
+  .mono-label {
+    @apply font-mono text-[10.5px] font-bold uppercase tracking-[0.12em] text-ink-soft;
+  }
+
+  .field-label {
+    @apply mb-1.5 block text-sm font-semibold text-ink;
+  }
+
+  .field-input {
+    @apply block w-full rounded-md border border-line-strong bg-surface px-3 py-2 text-sm text-ink
+           placeholder:text-ink-soft focus:border-petrol focus:outline-none focus:ring-2 focus:ring-petrol-pale;
+  }
+}

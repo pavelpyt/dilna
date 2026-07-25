@@ -1,0 +1,13 @@
+<% if notice.present? %>
+  <div class="mb-5 flex items-center gap-2.5 rounded-card border border-petrol-edge bg-petrol-pale px-4 py-3 text-[12.5px] text-petrol-ink">
+    <%= render IconComponent.new(name: :info, css_class: "size-4 flex-none") %>
+    <%= notice %>
+  </div>
+<% end %>
+
+<% if alert.present? %>
+  <div class="mb-5 flex items-center gap-2.5 rounded-card border border-over-edge bg-over-pale px-4 py-3 text-[12.5px] text-over">
+    <%= render IconComponent.new(name: :info, css_class: "size-4 flex-none") %>
+    <%= alert %>
+  </div>
+<% end %>

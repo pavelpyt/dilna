@@ -1,0 +1,55 @@
+<% content_for :title, "Založení firmy — Dílna" %>
+
+<%= render CardComponent.new do %>
+  <h2 class="mb-1 font-display text-lg font-bold">Založit firmu</h2>
+  <p class="mb-5 text-[13px] text-ink-soft">Vytvoříš si firmu a staneš se jejím majitelem. Techniky přidáš potom.</p>
+
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |form| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
+
+    <%= form.fields_for :account do |account_form| %>
+      <div class="mb-4">
+        <%= account_form.label :name, class: "field-label" %>
+        <%= account_form.text_field :name, autofocus: true, placeholder: "Novák — topení a voda", class: "field-input" %>
+      </div>
+    <% end %>
+
+    <div class="mb-4 grid grid-cols-2 gap-3">
+      <div>
+        <%= form.label :first_name, class: "field-label" %>
+        <%= form.text_field :first_name, class: "field-input" %>
+      </div>
+      <div>
+        <%= form.label :last_name, class: "field-label" %>
+        <%= form.text_field :last_name, class: "field-input" %>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :phone, class: "field-label" %>
+      <%= form.telephone_field :phone, placeholder: "+420 602 118 340", class: "field-input" %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :email, class: "field-label" %>
+      <%= form.email_field :email, autocomplete: "email", class: "field-input" %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :password, class: "field-label" %>
+      <%= form.password_field :password, autocomplete: "new-password", class: "field-input" %>
+      <p class="mt-1 text-[12px] text-ink-soft">Minimálně <%= @minimum_password_length %> znaků.</p>
+    </div>
+
+    <div class="mb-5">
+      <%= form.label :password_confirmation, class: "field-label" %>
+      <%= form.password_field :password_confirmation, autocomplete: "new-password", class: "field-input" %>
+    </div>
+
+    <%= form.submit "Založit firmu", class: "btn btn-primary w-full justify-center" %>
+  <% end %>
+
+  <div class="mt-5 border-t border-line pt-4 text-[13px] text-ink-soft">
+    <%= render "devise/shared/links" %>
+  </div>
+<% end %>

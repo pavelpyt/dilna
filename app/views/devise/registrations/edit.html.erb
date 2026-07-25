@@ -1,0 +1,53 @@
+<% content_for :title, "Můj účet — Dílna" %>
+
+<%= render CardComponent.new do %>
+  <h2 class="mb-5 font-display text-lg font-bold">Můj účet</h2>
+
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |form| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
+
+    <div class="mb-4 grid grid-cols-2 gap-3">
+      <div>
+        <%= form.label :first_name, class: "field-label" %>
+        <%= form.text_field :first_name, class: "field-input" %>
+      </div>
+      <div>
+        <%= form.label :last_name, class: "field-label" %>
+        <%= form.text_field :last_name, class: "field-input" %>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :phone, class: "field-label" %>
+      <%= form.telephone_field :phone, class: "field-input" %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :email, class: "field-label" %>
+      <%= form.email_field :email, autocomplete: "email", class: "field-input" %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :password, "Nové heslo", class: "field-label" %>
+      <%= form.password_field :password, autocomplete: "new-password", class: "field-input" %>
+      <p class="mt-1 text-[12px] text-ink-soft">Nech prázdné, pokud heslo měnit nechceš.</p>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :password_confirmation, "Nové heslo znovu", class: "field-label" %>
+      <%= form.password_field :password_confirmation, autocomplete: "new-password", class: "field-input" %>
+    </div>
+
+    <div class="mb-5">
+      <%= form.label :current_password, class: "field-label" %>
+      <%= form.password_field :current_password, autocomplete: "current-password", class: "field-input" %>
+      <p class="mt-1 text-[12px] text-ink-soft">Současné heslo potřebujeme pro potvrzení změn.</p>
+    </div>
+
+    <%= form.submit "Uložit změny", class: "btn btn-primary w-full justify-center" %>
+  <% end %>
+<% end %>
+
+<p class="mt-4 text-center text-[13px]">
+  <%= link_to "Zpět do aplikace", root_path, class: "text-petrol hover:underline" %>
+</p>

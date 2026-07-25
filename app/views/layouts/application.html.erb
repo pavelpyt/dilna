@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="cs">
+  <head>
+    <%= render "shared/document_head" %>
+  </head>
+
+  <body>
+    <div class="grid min-h-screen md:grid-cols-[232px_1fr]">
+      <%= render "shared/sidebar" %>
+
+      <main class="min-w-0">
+        <div class="sticky top-0 z-10 flex items-center justify-between gap-4 border-b border-line bg-ground px-5 py-4 md:px-8">
+          <div>
+            <% if content_for?(:breadcrumb) %>
+              <div class="mb-0.5 font-mono text-[11px] uppercase tracking-[0.1em] text-ink-soft"><%= yield :breadcrumb %></div>
+            <% end %>
+            <h1 class="font-display text-[22px] font-bold tracking-[-0.01em]"><%= yield :page_title %></h1>
+          </div>
+          <div class="flex flex-wrap items-center justify-end gap-2.5"><%= yield :page_actions %></div>
+        </div>
+
+        <div class="max-w-[1180px] px-5 pb-16 pt-7 md:px-8">
+          <%= render "shared/flash_messages" %>
+          <%= yield %>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

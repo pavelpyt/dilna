@@ -1,0 +1,4 @@
+<%= link_to @path, class: link_class do %>
+  <%= render IconComponent.new(name: @icon, css_class: "size-[18px] flex-none") %>
+  <%= @label %>
+<% end %>

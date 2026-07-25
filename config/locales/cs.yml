@@ -1,0 +1,105 @@
+cs:
+  date:
+    abbr_day_names: [ne, po, út, st, čt, pá, so]
+    abbr_month_names: [~, led, úno, bře, dub, kvě, čvn, čvc, srp, zář, říj, lis, pro]
+    day_names: [neděle, pondělí, úterý, středa, čtvrtek, pátek, sobota]
+    formats:
+      default: "%-d. %-m. %Y"
+      long: "%-d. %B %Y"
+      short: "%-d. %-m."
+    month_names: [~, ledna, února, března, dubna, května, června, července, srpna, září, října, listopadu, prosince]
+    order:
+      - day
+      - month
+      - year
+
+  time:
+    am: dop.
+    pm: odp.
+    formats:
+      default: "%-d. %-m. %Y %H:%M"
+      long: "%-d. %B %Y %H:%M"
+      short: "%-d. %-m. %H:%M"
+      hour_and_minute: "%H:%M"
+
+  number:
+    format:
+      delimiter: " "
+      precision: 2
+      separator: ","
+    currency:
+      format:
+        delimiter: " "
+        format: "%n %u"
+        precision: 0
+        separator: ","
+        unit: Kč
+
+  helpers:
+    submit:
+      create: Vytvořit
+      submit: Uložit
+      update: Uložit změny
+
+  errors:
+    format: "%{attribute} %{message}"
+    messages:
+      blank: musí být vyplněno
+      taken: už je obsazeno
+      invalid: má neplatný formát
+      too_short: je příliš krátké (minimálně %{count} znaků)
+      not_a_number: musí být číslo
+      greater_than: musí být větší než %{count}
+      greater_than_or_equal_to: musí být větší nebo rovno %{count}
+      inclusion: není v seznamu povolených hodnot
+      confirmation: se neshoduje s %{attribute}
+
+  activerecord:
+    models:
+      account: Firma
+      user: Uživatel
+    attributes:
+      account:
+        name: Název firmy
+        slug: Adresa veřejného formuláře
+        phone: Telefon
+        email: E-mail
+      user:
+        first_name: Jméno
+        last_name: Příjmení
+        phone: Telefon
+        email: E-mail
+        password: Heslo
+        password_confirmation: Potvrzení hesla
+        current_password: Současné heslo
+        role: Role
+    errors:
+      messages:
+        record_invalid: "Formulář obsahuje chyby: %{errors}"
+
+  users:
+    roles:
+      owner: Majitel
+      staff: Technik
+
+  devise:
+    failure:
+      already_authenticated: Už jsi přihlášený.
+      invalid: Neplatný e-mail nebo heslo.
+      unauthenticated: Pro pokračování se musíš přihlásit.
+      timeout: Přihlášení vypršelo, přihlas se znovu.
+    sessions:
+      signed_in: Přihlášení proběhlo v pořádku.
+      signed_out: Odhlášení proběhlo v pořádku.
+      already_signed_out: Odhlášení proběhlo v pořádku.
+    registrations:
+      signed_up: Vítej v Dílně!
+      updated: Účet byl upraven.
+      destroyed: Účet byl zrušen.
+    passwords:
+      send_instructions: Za pár minut ti přijde e-mail s odkazem na obnovu hesla.
+      updated: Heslo bylo změněno, jsi přihlášený.
+      no_token: Tuhle stránku jde otevřít jen z odkazu v e-mailu o obnově hesla.
+    mailer:
+      reset_password_instructions:
+        subject: Obnova hesla
