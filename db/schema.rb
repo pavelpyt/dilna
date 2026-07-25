@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_25_211638) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_25_212331) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gist"
   enable_extension "pg_catalog.plpgsql"
@@ -51,6 +51,35 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_25_211638) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "checklist_items", force: :cascade do |t|
+    t.datetime "completed_at"
+    t.bigint "completed_by_user_id"
+    t.datetime "created_at", null: false
+    t.bigint "job_id", null: false
+    t.string "label", null: false
+    t.integer "position", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.index ["completed_by_user_id"], name: "index_checklist_items_on_completed_by_user_id"
+    t.index ["job_id"], name: "index_checklist_items_on_job_id"
+  end
+
+  create_table "checklist_template_items", force: :cascade do |t|
+    t.bigint "checklist_template_id", null: false
+    t.datetime "created_at", null: false
+    t.string "label", null: false
+    t.integer "position", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.index ["checklist_template_id"], name: "index_checklist_template_items_on_checklist_template_id"
+  end
+
+  create_table "checklist_templates", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_checklist_templates_on_account_id"
   end
 
   create_table "clients", force: :cascade do |t|
@@ -181,6 +210,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_25_211638) do
     t.index ["account_id"], name: "index_services_on_account_id"
   end
 
+  create_table "time_entries", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "ended_at"
+    t.bigint "job_id"
+    t.datetime "started_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["job_id"], name: "index_time_entries_on_job_id"
+    t.index ["user_id", "started_at"], name: "index_time_entries_on_user_id_and_started_at"
+    t.index ["user_id"], name: "index_time_entries_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.datetime "created_at", null: false
@@ -216,6 +257,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_25_211638) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "checklist_items", "jobs"
+  add_foreign_key "checklist_items", "users", column: "completed_by_user_id"
+  add_foreign_key "checklist_template_items", "checklist_templates"
+  add_foreign_key "checklist_templates", "accounts"
   add_foreign_key "clients", "accounts"
   add_foreign_key "contacts", "clients"
   add_foreign_key "job_items", "jobs"
@@ -231,6 +276,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_25_211638) do
   add_foreign_key "public_tokens", "jobs"
   add_foreign_key "quotes", "jobs"
   add_foreign_key "services", "accounts"
+  add_foreign_key "time_entries", "jobs"
+  add_foreign_key "time_entries", "users"
   add_foreign_key "users", "accounts"
   add_foreign_key "visits", "jobs"
   add_foreign_key "visits", "users"

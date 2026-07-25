@@ -188,6 +188,27 @@ planned_visits.each do |visit_attributes|
   visit_attributes[:job].visits.create!(user: visit_attributes[:user], starts_at: starts_at, ends_at: ends_at)
 end
 
+havarie_checklist = demo_account.checklist_templates.find_or_create_by!(name: "Havárie — voda")
+
+if havarie_checklist.checklist_template_items.empty?
+  [
+    "Uzavřít přívod vody",
+    "Vyfotit stav před opravou",
+    "Tlaková zkouška po opravě",
+    "Úklid pracoviště"
+  ].each_with_index do |label, index|
+    havarie_checklist.checklist_template_items.create!(label: label, position: index + 1)
+  end
+end
+
+havarie_checklist.copy_items_to(havarie) if havarie.checklist_items.empty?
+havarie.checklist_items.in_order.first(2).each { |item| item.update!(completed_at: Time.current, completed_by_user: owner) }
+
+# Trochu odpracovaných hodin, ať má export a přehled týmu co ukázat.
+if TimeEntry.none?
+  owner.time_entries.create!(job: havarie, started_at: Time.current.change(hour: 7, min: 12), ended_at: Time.current.change(hour: 11, min: 40))
+end
+
 incoming_requests = [
   {
     client_name: "Kavárna Zrno s.r.o.",

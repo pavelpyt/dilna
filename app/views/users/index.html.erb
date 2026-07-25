@@ -1,0 +1,66 @@
+<% content_for :title, "Tým a hodiny — Dílna" %>
+<% content_for :breadcrumb, "Provoz · tým" %>
+<% content_for :page_title, "Tým a hodiny" %>
+<% content_for :page_actions do %>
+  <%= link_to "Export hodin (Excel)", team_hours_export_path, class: "btn btn-ghost btn-sm" %>
+  <%= link_to new_user_path, class: "btn btn-primary btn-sm" do %>
+    <%= render IconComponent.new(name: :plus, css_class: "size-4", stroke_width: "2") %>
+    Přidat člena
+  <% end %>
+<% end %>
+
+<div class="mb-5 flex items-center gap-2.5 rounded-card border border-petrol-edge bg-petrol-pale px-4 py-3 text-[12.5px] text-petrol-ink">
+  <%= render IconComponent.new(name: :info, css_class: "size-4 flex-none") %>
+  Docházka, checklisty a export hodin. Mzdy ne — hodiny jdou ven do Excelu, mzdy počítá účetní.
+</div>
+
+<div class="mb-6 grid gap-4 md:grid-cols-3">
+  <% @team_members.each do |team_member| %>
+    <%= render StatCardComponent.new(label: "Tento týden — #{team_member.first_name}",
+                                     value: "#{number_with_precision(team_member.hours_worked_between(@week_start, @week_start.end_of_week.end_of_day), strip_insignificant_zeros: true)} h") do %>
+      <%= t("users.roles.#{team_member.role}") %>
+    <% end %>
+  <% end %>
+</div>
+
+<div class="grid gap-4 lg:grid-cols-[1.6fr_1fr]">
+  <%= render CardComponent.new(title: "Docházka — dnes", padded: false) do %>
+    <div class="list-rows">
+      <% @time_entries_today.each do |time_entry| %>
+        <div class="list-row">
+          <%= render AvatarComponent.new(person: time_entry.user, size: :small) %>
+          <div class="min-w-0 flex-1">
+            <b class="block text-[14.5px] font-semibold"><%= time_entry.user.full_name %></b>
+            <span class="text-[12.5px] text-ink-soft">
+              naskočil <%= l(time_entry.started_at, format: :hour_and_minute) %><%= " – #{l(time_entry.ended_at, format: :hour_and_minute)}" if time_entry.ended_at %><%= " · #{time_entry.job.title}" if time_entry.job %>
+            </span>
+          </div>
+          <% if time_entry.running? %>
+            <%= render TagComponent.new(label: "Na místě", tone: :live) %>
+          <% else %>
+            <%= render TagComponent.new(label: "#{time_entry.duration_in_hours} h", tone: :paid) %>
+          <% end %>
+        </div>
+      <% end %>
+
+      <% if @time_entries_today.empty? %>
+        <p class="empty-state">Dnes zatím nikdo nenaskočil.</p>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%= render CardComponent.new(title: "Členové týmu", padded: false) do %>
+    <div class="list-rows">
+      <% @team_members.each do |team_member| %>
+        <%= link_to edit_user_path(team_member), class: "list-row" do %>
+          <%= render AvatarComponent.new(person: team_member, size: :small) %>
+          <div class="min-w-0 flex-1">
+            <b class="block text-[14.5px] font-semibold"><%= team_member.full_name %></b>
+            <span class="text-[12.5px] text-ink-soft"><%= team_member.email %></span>
+          </div>
+          <span class="mono-label"><%= t("users.roles.#{team_member.role}") %></span>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

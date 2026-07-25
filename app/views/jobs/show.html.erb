@@ -4,6 +4,11 @@
 <% end %>
 <% content_for :page_title, @job.title %>
 <% content_for :page_actions do %>
+  <% if @running_time_entry.nil? %>
+    <%= button_to "Naskočit na zakázku", job_time_entries_path(@job), class: "btn btn-ghost btn-sm" %>
+  <% elsif @running_time_entry.job_id == @job.id %>
+    <%= button_to "Ukončit docházku", time_entry_path(@running_time_entry), method: :patch, class: "btn btn-ghost btn-sm" %>
+  <% end %>
   <%= link_to "Upravit", edit_job_path(@job), class: "btn btn-ghost btn-sm" %>
 <% end %>
 
@@ -82,6 +87,40 @@
 
         <%= form.submit "Přidat položku", class: "btn btn-ghost btn-sm" %>
       <% end %>
+    <% end %>
+
+    <%= render CardComponent.new(title: "Checklist") do %>
+      <% @checklist_items.each do |checklist_item| %>
+        <%= button_to job_checklist_item_path(@job, checklist_item), method: :patch,
+                      class: "flex w-full items-center gap-3 border-b border-line py-2.5 text-left last:border-b-0" do %>
+          <span class="grid size-5 flex-none place-items-center rounded-[5px] border-2 <%= checklist_item.completed? ? "border-paid bg-paid text-white" : "border-line-strong" %>">
+            <% if checklist_item.completed? %>
+              <%= render IconComponent.new(name: :check, css_class: "size-3", stroke_width: "3") %>
+            <% end %>
+          </span>
+          <span class="text-sm <%= "text-ink-soft line-through" if checklist_item.completed? %>"><%= checklist_item.label %></span>
+        <% end %>
+      <% end %>
+
+      <% if @checklist_items.empty? %>
+        <p class="text-sm text-ink-soft">Zakázka nemá checklist.</p>
+      <% end %>
+
+      <div class="mt-4 space-y-3 border-t border-line pt-4">
+        <%= form_with model: [ @job, ChecklistItem.new ], class: "flex gap-2" do |form| %>
+          <%= form.text_field :label, placeholder: "Další krok…", class: "field-input" %>
+          <%= form.submit "Přidat", class: "btn btn-ghost btn-sm flex-none" %>
+        <% end %>
+
+        <% if @checklist_templates.any? %>
+          <%= form_with url: job_job_checklists_path(@job), class: "flex gap-2" do |form| %>
+            <%= form.select :checklist_template_id,
+                            @checklist_templates.map { |template| [ template.name, template.id ] },
+                            {}, class: "field-input" %>
+            <%= form.submit "Ze šablony", class: "btn btn-ghost btn-sm flex-none" %>
+          <% end %>
+        <% end %>
+      </div>
     <% end %>
 
     <%= render CardComponent.new(title: "Fotodokumentace") do %>

@@ -1,0 +1,9 @@
+uzavrit_vodu:
+  checklist_template: havarie_voda
+  label: Uzavřít přívod vody
+  position: 1
+
+tlakova_zkouska:
+  checklist_template: havarie_voda
+  label: Tlaková zkouška po opravě
+  position: 2

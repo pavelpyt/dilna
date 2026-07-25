@@ -19,6 +19,9 @@ class JobsController < ApplicationController
     @technicians = current_account.users.order(:last_name, :first_name)
     @quote = @job.current_quote
     @client_hub_url = client_hub_url(@job.public_token_for_client_hub.token)
+    @checklist_items = @job.checklist_items.in_order
+    @checklist_templates = current_account.checklist_templates.by_name
+    @running_time_entry = current_user.running_time_entry
   end
 
   def new

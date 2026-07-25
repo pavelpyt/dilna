@@ -1,0 +1,9 @@
+<% content_for :title, "Úprava šablony — Dílna" %>
+<% content_for :breadcrumb, "Šablony checklistů" %>
+<% content_for :page_title, @checklist_template.name %>
+
+<div class="max-w-[640px]">
+  <%= render CardComponent.new do %>
+    <%= render "form", checklist_template: @checklist_template %>
+  <% end %>
+</div>

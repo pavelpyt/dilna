@@ -1,0 +1,9 @@
+<% content_for :title, "Úprava člena týmu — Dílna" %>
+<% content_for :breadcrumb, "Tým" %>
+<% content_for :page_title, @user.full_name %>
+
+<div class="max-w-[640px]">
+  <%= render CardComponent.new do %>
+    <%= render "form", user: @user %>
+  <% end %>
+</div>

@@ -34,6 +34,8 @@ class Job < ApplicationRecord
 
   has_many :visits, -> { order(:starts_at) }, dependent: :destroy
   has_many :quotes, dependent: :destroy
+  has_many :checklist_items, -> { order(:position, :id) }, dependent: :destroy
+  has_many :time_entries, dependent: :nullify
   has_many :public_tokens, dependent: :destroy
   has_many :job_items, -> { order(:position, :id) }, dependent: :destroy
   has_many :notes, -> { order(created_at: :desc) }, dependent: :destroy
