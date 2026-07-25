@@ -1,0 +1,45 @@
+<%= form_with model: client, class: "space-y-4" do |form| %>
+  <%= render "shared/form_errors", record: client %>
+
+  <div>
+    <%= form.label :client_type, class: "field-label" %>
+    <%= form.select :client_type, client_type_options, {}, class: "field-input" %>
+  </div>
+
+  <div>
+    <%= form.label :name, class: "field-label" %>
+    <%= form.text_field :name, placeholder: "Restaurace U Kotvy s.r.o.", class: "field-input" %>
+  </div>
+
+  <div class="grid gap-4 md:grid-cols-2">
+    <div>
+      <%= form.label :company_registration_number, class: "field-label" %>
+      <%= form.text_field :company_registration_number, placeholder: "24178901", class: "field-input" %>
+    </div>
+    <div>
+      <%= form.label :vat_identification_number, class: "field-label" %>
+      <%= form.text_field :vat_identification_number, placeholder: "CZ24178901", class: "field-input" %>
+    </div>
+  </div>
+
+  <div class="grid gap-4 md:grid-cols-2">
+    <div>
+      <%= form.label :phone, class: "field-label" %>
+      <%= form.telephone_field :phone, placeholder: "+420 602 118 340", class: "field-input" %>
+    </div>
+    <div>
+      <%= form.label :email, class: "field-label" %>
+      <%= form.email_field :email, placeholder: "provoz@ukotvy.cz", class: "field-input" %>
+    </div>
+  </div>
+
+  <div>
+    <%= form.label :note, class: "field-label" %>
+    <%= form.text_area :note, rows: 3, class: "field-input" %>
+  </div>
+
+  <div class="flex gap-2.5 pt-1">
+    <%= form.submit class: "btn btn-primary" %>
+    <%= link_to "Zrušit", client.persisted? ? client : clients_path, class: "btn btn-ghost" %>
+  </div>
+<% end %>

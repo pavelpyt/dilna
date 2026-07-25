@@ -1,0 +1,89 @@
+<% content_for :title, "#{@client.name} — Dílna" %>
+<% content_for :breadcrumb, "Klienti · profil" %>
+<% content_for :page_title, @client.name %>
+<% content_for :page_actions do %>
+  <%= link_to "Upravit", edit_client_path(@client), class: "btn btn-ghost btn-sm" %>
+<% end %>
+
+<div class="mb-6">
+  <h2 class="font-display text-2xl font-extrabold tracking-[-0.01em]"><%= @client.name %></h2>
+  <div class="meta-line mt-2">
+    <% if @client.company_registration_number.present? %>
+      <span class="meta-item font-mono">IČO <%= @client.company_registration_number %></span>
+    <% end %>
+    <% if @client.vat_identification_number.present? %>
+      <span class="meta-item font-mono">DIČ <%= @client.vat_identification_number %></span>
+    <% end %>
+    <% if @client.phone.present? %>
+      <span class="meta-item">
+        <%= render IconComponent.new(name: :phone, css_class: "size-[15px] stroke-ink-soft") %>
+        <%= @client.phone %>
+      </span>
+    <% end %>
+    <% if @client.email.present? %>
+      <span class="meta-item"><%= @client.email %></span>
+    <% end %>
+  </div>
+</div>
+
+<div class="grid gap-4 lg:grid-cols-[1.6fr_1fr]">
+  <div class="space-y-4">
+    <%= render CardComponent.new(title: "Poznámky") do %>
+      <% if @client.note.present? %>
+        <p class="whitespace-pre-line text-[13.5px]"><%= @client.note %></p>
+      <% else %>
+        <p class="text-sm text-ink-soft">Žádná poznámka.</p>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="space-y-4">
+    <%= render CardComponent.new(title: "Místa (adresy)", padded: false) do |card| %>
+      <% card.with_header_actions do %>
+        <%= link_to "+ Přidat", new_client_property_path(@client), class: "btn btn-ghost btn-sm" %>
+      <% end %>
+
+      <div class="list-rows">
+        <% @properties.each do |property| %>
+          <div class="list-row">
+            <span class="grid size-[34px] flex-none place-items-center rounded-md border border-line bg-surface-muted">
+              <%= render IconComponent.new(name: :pin, css_class: "size-[17px] stroke-petrol") %>
+            </span>
+            <div class="min-w-0 flex-1">
+              <b class="block text-sm font-semibold"><%= property.display_label %></b>
+              <span class="text-[12.5px] text-ink-soft"><%= property.full_address %></span>
+            </div>
+            <%= link_to "Upravit", edit_client_property_path(@client, property), class: "btn btn-ghost btn-sm" %>
+          </div>
+        <% end %>
+
+        <% if @properties.empty? %>
+          <p class="empty-state">Klient zatím nemá žádnou adresu.</p>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%= render CardComponent.new(title: "Kontakty", padded: false) do |card| %>
+      <% card.with_header_actions do %>
+        <%= link_to "+ Přidat", new_client_contact_path(@client), class: "btn btn-ghost btn-sm" %>
+      <% end %>
+
+      <div class="list-rows">
+        <% @contacts.each do |contact| %>
+          <div class="list-row">
+            <%= render AvatarComponent.new(person: contact, variant: :neutral) %>
+            <div class="min-w-0 flex-1">
+              <b class="block text-sm font-semibold"><%= contact.full_name %></b>
+              <span class="text-[12.5px] text-ink-soft"><%= contact.description_line %></span>
+            </div>
+            <%= link_to "Upravit", edit_client_contact_path(@client, contact), class: "btn btn-ghost btn-sm" %>
+          </div>
+        <% end %>
+
+        <% if @contacts.empty? %>
+          <p class="empty-state">Klient zatím nemá žádné kontaktní osoby.</p>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

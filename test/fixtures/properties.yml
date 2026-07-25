@@ -1,0 +1,13 @@
+u_kotvy_provozovna:
+  client: u_kotvy
+  label: Hlavní provozovna
+  street: Bělehradská 45
+  city: Praha 2
+  postal_code: "120 00"
+
+svobodova_byt:
+  client: svobodova
+  label: Byt 3. patro
+  street: Korunní 88
+  city: Praha 2
+  postal_code: "101 00"

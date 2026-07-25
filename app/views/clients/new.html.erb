@@ -1,0 +1,9 @@
+<% content_for :title, "Nový klient — Dílna" %>
+<% content_for :breadcrumb, "Klienti" %>
+<% content_for :page_title, "Nový klient" %>
+
+<div class="max-w-[640px]">
+  <%= render CardComponent.new do %>
+    <%= render "form", client: @client %>
+  <% end %>
+</div>

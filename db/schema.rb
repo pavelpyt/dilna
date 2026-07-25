@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_25_203354) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_25_204722) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -22,6 +22,46 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_25_203354) do
     t.string "slug", null: false
     t.datetime "updated_at", null: false
     t.index ["slug"], name: "index_accounts_on_slug", unique: true
+  end
+
+  create_table "clients", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "client_type", default: "company", null: false
+    t.string "company_registration_number"
+    t.datetime "created_at", null: false
+    t.string "email"
+    t.string "name", null: false
+    t.text "note"
+    t.string "phone"
+    t.datetime "updated_at", null: false
+    t.string "vat_identification_number"
+    t.index ["account_id"], name: "index_clients_on_account_id"
+  end
+
+  create_table "contacts", force: :cascade do |t|
+    t.bigint "client_id", null: false
+    t.datetime "created_at", null: false
+    t.string "email"
+    t.string "first_name", null: false
+    t.string "last_name", null: false
+    t.string "phone"
+    t.string "position"
+    t.datetime "updated_at", null: false
+    t.index ["client_id"], name: "index_contacts_on_client_id"
+  end
+
+  create_table "properties", force: :cascade do |t|
+    t.string "city", null: false
+    t.bigint "client_id", null: false
+    t.datetime "created_at", null: false
+    t.string "label"
+    t.decimal "latitude", precision: 10, scale: 6
+    t.decimal "longitude", precision: 10, scale: 6
+    t.text "note"
+    t.string "postal_code"
+    t.string "street", null: false
+    t.datetime "updated_at", null: false
+    t.index ["client_id"], name: "index_properties_on_client_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -42,5 +82,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_25_203354) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "clients", "accounts"
+  add_foreign_key "contacts", "clients"
+  add_foreign_key "properties", "clients"
   add_foreign_key "users", "accounts"
 end

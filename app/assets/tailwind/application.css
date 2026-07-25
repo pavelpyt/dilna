@@ -82,6 +82,26 @@
     @apply font-mono text-[10.5px] font-bold uppercase tracking-[0.12em] text-ink-soft;
   }
 
+  .list-rows {
+    @apply flex flex-col;
+  }
+
+  .list-row {
+    @apply flex items-center gap-3.5 border-b border-line px-[18px] py-3.5 transition last:border-b-0 hover:bg-surface-muted;
+  }
+
+  .meta-line {
+    @apply flex flex-wrap items-center gap-x-[18px] gap-y-2 text-[13px] text-ink-soft;
+  }
+
+  .meta-item {
+    @apply flex items-center gap-2;
+  }
+
+  .empty-state {
+    @apply px-[18px] py-8 text-center text-sm text-ink-soft;
+  }
+
   .field-label {
     @apply mb-1.5 block text-sm font-semibold text-ink;
   }
