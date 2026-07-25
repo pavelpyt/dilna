@@ -9,9 +9,15 @@ nad tímhle repem).
 ## Rozjetí
 
 ```bash
-bin/setup            # gemy, databáze, seedy
-bin/rails server     # aplikace na http://localhost:3000
-bin/jobs             # fronta (upomínky, odesílání SMS a mailů)
+bin/setup    # gemy, databáze, seedy
+bin/dev      # server na http://localhost:3008, Tailwind watch a fronta
+```
+
+Jednotlivě, když je to potřeba zvlášť:
+
+```bash
+bin/rails server -p 3008   # aplikace
+bin/jobs                   # fronta (upomínky, odesílání SMS a mailů)
 ```
 
 Potřebuješ Ruby 3.3 a PostgreSQL 17. Databáze se jmenují `dilna_development`
