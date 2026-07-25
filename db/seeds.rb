@@ -156,4 +156,34 @@ zamereni.assign_attributes(
 )
 zamereni.save!
 
+incoming_requests = [
+  {
+    client_name: "Kavárna Zrno s.r.o.",
+    phone: "+420 775 220 118",
+    email: "provoz@kavarnazrno.cz",
+    street: "Lublaňská 12",
+    city: "Praha 2",
+    postal_code: "120 00",
+    title: "Rozvody vody do nového baru",
+    description: "Stavíme nový bar, potřebujeme přivést vodu a odpad. Prosíme o cenovou nabídku."
+  },
+  {
+    client_name: "Marek Beneš",
+    phone: "+420 733 908 442",
+    street: "Sokolská 60",
+    city: "Praha 2",
+    postal_code: "120 00",
+    title: "Netopí radiátor v ložnici",
+    description: "Ostatní radiátory hřejí, tenhle zůstává studený. Asi vzduch v systému."
+  }
+]
+
+incoming_requests.each do |request_attributes|
+  next if demo_account.jobs.exists?(title: request_attributes[:title])
+
+  job_request_form = JobRequestForm.new(request_attributes)
+  PublicRequests::JobCreator.new(demo_account).create_job_from_public_form(job_request_form)
+end
+
 puts "Hotovo. Přihlas se jako #{owner.email} s heslem heslo1234."
+puts "Veřejný poptávkový formulář: /poptavka/#{demo_account.slug}"

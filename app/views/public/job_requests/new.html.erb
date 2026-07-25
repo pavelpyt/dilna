@@ -1,0 +1,51 @@
+<% content_for :title, "Poptávka — #{current_account.name}" %>
+<% content_for :public_title, "Nezávazná poptávka" %>
+<% content_for :public_subtitle, "Ozveme se vám co nejdřív a domluvíme termín." %>
+
+<%= form_with model: @job_request_form, url: public_job_requests_path(current_account.slug), scope: :job_request_form, class: "space-y-4" do |form| %>
+  <%= render "shared/form_errors", record: @job_request_form %>
+
+  <div>
+    <%= form.label :title, "Co potřebujete", class: "field-label" %>
+    <%= form.text_field :title, placeholder: "Kape baterie v koupelně", class: "field-input" %>
+  </div>
+
+  <div>
+    <%= form.label :description, "Popis", class: "field-label" %>
+    <%= form.text_area :description, rows: 4, placeholder: "Čím podrobněji, tím rychleji vám poradíme.", class: "field-input" %>
+  </div>
+
+  <div>
+    <%= form.label :client_name, "Jméno nebo název firmy", class: "field-label" %>
+    <%= form.text_field :client_name, class: "field-input" %>
+  </div>
+
+  <div class="grid gap-4 sm:grid-cols-2">
+    <div>
+      <%= form.label :phone, "Telefon", class: "field-label" %>
+      <%= form.telephone_field :phone, placeholder: "+420 602 118 340", class: "field-input" %>
+    </div>
+    <div>
+      <%= form.label :email, "E-mail", class: "field-label" %>
+      <%= form.email_field :email, class: "field-input" %>
+    </div>
+  </div>
+
+  <div>
+    <%= form.label :street, "Ulice a číslo", class: "field-label" %>
+    <%= form.text_field :street, placeholder: "Bělehradská 45", class: "field-input" %>
+  </div>
+
+  <div class="grid gap-4 sm:grid-cols-[1fr_2fr]">
+    <div>
+      <%= form.label :postal_code, "PSČ", class: "field-label" %>
+      <%= form.text_field :postal_code, class: "field-input" %>
+    </div>
+    <div>
+      <%= form.label :city, "Město", class: "field-label" %>
+      <%= form.text_field :city, class: "field-input" %>
+    </div>
+  </div>
+
+  <%= form.submit "Odeslat poptávku", class: "btn btn-primary w-full justify-center" %>
+<% end %>

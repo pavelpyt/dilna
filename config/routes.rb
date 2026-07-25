@@ -17,6 +17,13 @@ Rails.application.routes.draw do
 
   resources :services
 
+  resources :inquiries, only: [ :index ]
+
+  # Veřejný poptávkový formulář firmy — bez přihlášení, adresa podle slugu.
+  get "poptavka/:account_slug", to: "public/job_requests#new", as: :public_job_request
+  post "poptavka/:account_slug", to: "public/job_requests#create", as: :public_job_requests
+  get "poptavka/:account_slug/odeslano", to: "public/job_requests#sent", as: :public_job_request_sent
+
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check

@@ -10,6 +10,7 @@
   </div>
 
   <%= render NavItemComponent.new(label: "Přehled", path: root_path, icon: :dashboard, active: nav_item_active?(root_path)) %>
+  <%= render NavItemComponent.new(label: "Poptávky", path: inquiries_path, icon: :globe, active: nav_item_active?(inquiries_path), badge_count: open_inquiries_count) %>
   <%= render NavItemComponent.new(label: "Zakázky", path: jobs_path, icon: :job, active: nav_item_active?(jobs_path)) %>
   <%= render NavItemComponent.new(label: "Klienti", path: clients_path, icon: :client, active: nav_item_active?(clients_path)) %>
 

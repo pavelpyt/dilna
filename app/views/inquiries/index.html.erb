@@ -1,0 +1,39 @@
+<% content_for :title, "Poptávky — Dílna" %>
+<% content_for :breadcrumb, "Provoz" %>
+<% content_for :page_title, "Poptávky" %>
+
+<div class="mb-5 flex items-center gap-2.5 rounded-card border border-petrol-edge bg-petrol-pale px-4 py-3 text-[12.5px] text-petrol-ink">
+  <%= render IconComponent.new(name: :info, css_class: "size-4 flex-none") %>
+  <span>
+    Veřejný formulář najdou zákazníci na
+    <%= link_to public_job_request_url(current_account.slug), public_job_request_path(current_account.slug),
+                class: "font-mono underline", target: "_blank", rel: "noopener" %>
+  </span>
+</div>
+
+<%= render CardComponent.new(padded: false) do %>
+  <div class="list-rows">
+    <% @inquiries.each do |inquiry| %>
+      <div class="list-row">
+        <div class="min-w-0 flex-1">
+          <%= link_to inquiry, class: "block" do %>
+            <b class="block text-[14.5px] font-semibold"><%= inquiry.title %></b>
+          <% end %>
+          <span class="text-[12.5px] text-ink-soft">
+            <%= inquiry.client.name %><%= " · #{inquiry.property.full_address}" if inquiry.property %>
+          </span>
+          <span class="block font-mono text-[11px] text-ink-soft"><%= l(inquiry.created_at, format: :short) %></span>
+        </div>
+
+        <%= button_to "Přijmout", job_status_path(inquiry, status: "priced"), method: :patch,
+                      class: "btn btn-primary btn-sm" %>
+        <%= button_to "Odmítnout", job_status_path(inquiry, status: "rejected"), method: :patch,
+                      class: "btn btn-ghost btn-sm" %>
+      </div>
+    <% end %>
+
+    <% if @inquiries.empty? %>
+      <p class="empty-state">Žádné nové poptávky.</p>
+    <% end %>
+  </div>
+<% end %>
