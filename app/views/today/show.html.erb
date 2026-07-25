@@ -2,6 +2,8 @@
 <% content_for :breadcrumb, l(Date.current, format: "%A · %-d. %B").capitalize %>
 <% content_for :page_title, "Dnešek" %>
 
+<%= render "shared/install_prompt" %>
+
 <div class="mb-6 grid gap-4 md:grid-cols-2">
   <%= render StatCardComponent.new(label: "Dnešní termíny", value: @visits_today.size) do %>
     přiřazené tobě

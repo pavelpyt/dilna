@@ -1,26 +1,13 @@
-// Add a service worker for processing Web Push notifications:
+// Service worker pro instalaci na plochu. Offline režim je až fáze 2 —
+// zatím se jen registruje a pouští požadavky rovnou na server.
 //
-// self.addEventListener("push", async (event) => {
-//   const { title, options } = await event.data.json()
-//   event.waitUntil(self.registration.showNotification(title, options))
-// })
-//
-// self.addEventListener("notificationclick", function(event) {
-//   event.notification.close()
-//   event.waitUntil(
-//     clients.matchAll({ type: "window" }).then((clientList) => {
-//       for (let i = 0; i < clientList.length; i++) {
-//         let client = clientList[i]
-//         let clientPath = (new URL(client.url)).pathname
-//
-//         if (clientPath == event.notification.data.path && "focus" in client) {
-//           return client.focus()
-//         }
-//       }
-//
-//       if (clients.openWindow) {
-//         return clients.openWindow(event.notification.data.path)
-//       }
-//     })
-//   )
-// })
+// Tady bude v další fázi cache dnešního rozvrhu a fronta zápisů (foto,
+// poznámky, hotovo), která se odešle po návratu online.
+
+self.addEventListener("install", () => {
+  self.skipWaiting()
+})
+
+self.addEventListener("activate", (event) => {
+  event.waitUntil(self.clients.claim())
+})
