@@ -246,5 +246,16 @@ incoming_requests.each do |request_attributes|
   PublicRequests::JobCreator.new(demo_account).create_job_from_public_form(job_request_form)
 end
 
+if havarie.sms_messages.empty?
+  havarie.client.sms_messages.create!(
+    job: havarie,
+    template_name: "on_the_way",
+    body: Sms::Templates.body_for("on_the_way", havarie),
+    status: "sent",
+    external_id: "sms-mock-seed01",
+    sent_at: 2.hours.ago
+  )
+end
+
 puts "Hotovo. Přihlas se jako #{owner.email} s heslem heslo1234."
 puts "Veřejný poptávkový formulář: /poptavka/#{demo_account.slug}"

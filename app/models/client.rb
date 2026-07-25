@@ -6,6 +6,7 @@ class Client < ApplicationRecord
   has_many :contacts, dependent: :destroy
   has_many :jobs, dependent: :destroy
   has_many :invoices, through: :jobs
+  has_many :sms_messages, dependent: :destroy
 
   validates :name, presence: true
   validates :client_type, inclusion: { in: CLIENT_TYPES }

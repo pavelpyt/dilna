@@ -11,6 +11,7 @@ class ClientsController < ApplicationController
     @contacts = @client.contacts.order(:last_name, :first_name)
     @jobs = @client.jobs.includes(:property).newest_first
     @invoices = @client.invoices.includes(:job).newest_first
+    @sms_messages = @client.sms_messages.newest_first.limit(10)
   end
 
   def new

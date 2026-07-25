@@ -19,6 +19,7 @@ Rails.application.routes.draw do
     resources :job_checklists, only: [ :create ]
     resources :time_entries, only: [ :create ]
     resource :invoice, only: [ :create ]
+    resources :sms_messages, only: [ :create ]
   end
 
   resources :time_entries, only: [ :create, :update ]

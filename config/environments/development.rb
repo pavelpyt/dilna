@@ -38,7 +38,7 @@ Rails.application.configure do
   config.action_mailer.perform_caching = false
 
   # Set localhost to be used by links generated in mailer templates.
-  config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
+  config.action_mailer.default_url_options = { host: "localhost", port: 3311 }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -54,6 +54,11 @@ Rails.application.configure do
 
   # Highlight code that enqueued background job in logs.
   config.active_job.verbose_enqueue_logs = true
+
+  # Solid Queue i ve vývoji, aby upomínky běžely stejně jako v provozu.
+  # Fronta se spouští přes `bin/jobs`.
+  config.active_job.queue_adapter = :solid_queue
+  config.solid_queue.connects_to = { database: { writing: :queue } }
 
   # Highlight code that triggered redirect in logs.
   config.action_dispatch.verbose_redirect_logs = true
