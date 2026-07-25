@@ -35,6 +35,7 @@ class Job < ApplicationRecord
   has_many :visits, -> { order(:starts_at) }, dependent: :destroy
   has_many :quotes, dependent: :destroy
   has_one :invoice, dependent: :destroy
+  has_many :sms_messages, dependent: :nullify
   has_many :checklist_items, -> { order(:position, :id) }, dependent: :destroy
   has_many :time_entries, dependent: :nullify
   has_many :public_tokens, dependent: :destroy
@@ -81,6 +82,7 @@ class Job < ApplicationRecord
     transaction do
       quote = quotes.create!(status: "sent", valid_until: valid_until, sent_at: Time.current)
       change_status_to!("quote_sent")
+      ClientMailer.quote_ready(quote).deliver_later if client.email.present?
       quote
     end
   end

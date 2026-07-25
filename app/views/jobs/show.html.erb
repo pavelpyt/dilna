@@ -260,6 +260,31 @@
       <% end %>
     <% end %>
 
+    <%= render CardComponent.new(title: "Komunikace") do %>
+      <div class="mb-4 flex flex-wrap gap-2">
+        <% Sms::Templates::NAMES.each do |template_name| %>
+          <%= button_to t("sms_messages.templates.#{template_name}"),
+                        job_sms_messages_path(@job, template_name: template_name),
+                        class: "btn btn-ghost btn-sm" %>
+        <% end %>
+      </div>
+
+      <% @sms_messages.each do |sms_message| %>
+        <div class="border-b border-line py-2.5 text-[13px] last:border-b-0">
+          <div class="mb-0.5 flex items-center justify-between gap-2">
+            <span class="font-mono text-[11px] text-ink-soft"><%= l(sms_message.created_at, format: :short) %></span>
+            <%= render TagComponent.new(label: t("sms_messages.statuses.#{sms_message.status}"),
+                                        tone: sms_message_status_tone(sms_message)) %>
+          </div>
+          <%= sms_message.body %>
+        </div>
+      <% end %>
+
+      <% if @sms_messages.empty? %>
+        <p class="text-sm text-ink-soft">Zákazníkovi zatím nic neodešlo.</p>
+      <% end %>
+    <% end %>
+
     <%= render CardComponent.new(title: "Poznámky") do %>
       <%= form_with model: [ @job, @new_note ], class: "mb-4 space-y-2" do |form| %>
         <%= form.text_area :body, rows: 2, placeholder: "Co je potřeba vědět…", class: "field-input" %>

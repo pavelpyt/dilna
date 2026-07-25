@@ -24,6 +24,7 @@ class InvoicesController < ApplicationController
     job.change_status_to!("invoiced")
 
     Payments::PaymentLinkCreator.new.create_payment_link_for_invoice(job.invoice)
+    ClientMailer.invoice_issued(job.invoice).deliver_later if job.client.email.present?
 
     redirect_to job, notice: "Faktura byla vystavena."
   end

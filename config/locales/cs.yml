@@ -147,6 +147,16 @@ cs:
       person: Osoba
       company: Firma
 
+  sms_messages:
+    statuses:
+      queued: Ve frontě
+      sent: Odesláno
+      failed: Neodesláno
+    templates:
+      on_the_way: SMS „jsme na cestě"
+      visit_confirmed: SMS „termín potvrzen"
+      invoice_issued: SMS „faktura vystavena"
+
   quotes:
     statuses:
       draft: Koncept

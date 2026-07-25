@@ -1,0 +1,8 @@
+havarie_na_ceste:
+  client: u_kotvy
+  job: havarie
+  body: Dobrý den, jsme na cestě.
+  status: sent
+  template_name: on_the_way
+  external_id: sms-mock-test
+  sent_at: <%= 2.hours.ago.iso8601 %>

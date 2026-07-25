@@ -1,0 +1,10 @@
+<p>Dobrý den,</p>
+
+<p>faktura <b><%= @invoice.number %></b> na <%= number_to_currency(@invoice.total_with_vat) %>
+je <%= @invoice.days_overdue %> dní po splatnosti.</p>
+
+<p>Zaplatit ji můžete tady: <%= link_to @client_hub_url, @client_hub_url %></p>
+
+<p>Pokud jste už zaplatili, tenhle e-mail prosím ignorujte.</p>
+
+<p><%= @job.account.name %></p>

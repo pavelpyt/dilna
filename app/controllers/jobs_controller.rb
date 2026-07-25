@@ -22,6 +22,7 @@ class JobsController < ApplicationController
     @checklist_items = @job.checklist_items.in_order
     @checklist_templates = current_account.checklist_templates.by_name
     @running_time_entry = current_user.running_time_entry
+    @sms_messages = @job.sms_messages.newest_first
   end
 
   def new

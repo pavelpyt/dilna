@@ -1,0 +1,9 @@
+Dobrý den,
+
+připravili jsme pro vás nabídku na <%= @job.title %> ve výši <%= number_to_currency(@quote.total_with_vat) %>.
+<% if @quote.valid_until %>
+Nabídka platí do <%= l(@quote.valid_until, format: :default) %>.
+<% end %>
+Schválit ji můžete tady: <%= @client_hub_url %>
+
+<%= @job.account.name %>

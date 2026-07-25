@@ -1,0 +1,8 @@
+<p>Dobrý den,</p>
+
+<p>vystavili jsme fakturu <b><%= @invoice.number %></b> na <%= number_to_currency(@invoice.total_with_vat) %>
+se splatností <%= l(@invoice.due_on, format: :default) %>.</p>
+
+<p>Zaplatit ji můžete tady: <%= link_to @client_hub_url, @client_hub_url %></p>
+
+<p><%= @job.account.name %></p>
