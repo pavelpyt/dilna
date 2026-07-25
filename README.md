@@ -26,6 +26,22 @@ a `dilna_development_queue` (fronta má vlastní).
 Po `bin/rails db:seed` se přihlásíš jako **petr@novak-topeni.cz** s heslem
 **heslo1234**. Techniky demo firmy najdeš na `tomas@` a `jakub@` (stejné heslo).
 
+## Sdílení běžícího serveru
+
+Port 3008 jde vystavit ven přes port forwarding ve VS Code (Ports → Forward
+a Port → 3008 → Port Visibility → Public). Rails na to je připravený:
+`config.hosts` pouští `*.devtunnels.ms` a X-Forwarded-Proto z tunelu se bere
+vážně, aby formuláře nepadaly na CSRF.
+
+Pro jiný tunel (ngrok, cloudflared) stačí předat doménu:
+
+```bash
+DEV_TUNNEL_HOST=neco.ngrok-free.app bin/rails server -p 3008
+```
+
+Pozor: ve vývojovém režimu ukazují chybové stránky zdrojový kód a proměnné.
+Na veřejné demo je lepší pustit produkční režim, nebo tunel po ukázce zavřít.
+
 ## Bez jediného API klíče
 
 Fakturoid, Stripe i SMS brána jsou schované za service objekty v `app/services/`.
