@@ -1,0 +1,38 @@
+<% content_for :title, "Klienti — Dílna" %>
+<% content_for :breadcrumb, "Kartotéka" %>
+<% content_for :page_title, "Klienti" %>
+<% content_for :page_actions do %>
+  <%= link_to new_client_path, class: "btn btn-primary btn-sm" do %>
+    <%= render IconComponent.new(name: :plus, css_class: "size-4", stroke_width: "2") %>
+    Nový klient
+  <% end %>
+<% end %>
+
+<%= form_with url: clients_path, method: :get, class: "mb-5" do |form| %>
+  <%= form.search_field :hledat, value: @search_term, placeholder: "Hledat podle jména, telefonu nebo adresy…",
+                        class: "field-input max-w-[420px]" %>
+<% end %>
+
+<%= render CardComponent.new(padded: false) do %>
+  <div class="list-rows">
+    <% @clients.each do |client| %>
+      <%= link_to client, class: "list-row" do %>
+        <div class="min-w-0 flex-1">
+          <b class="block text-[14.5px] font-semibold"><%= client.name %></b>
+          <span class="text-[12.5px] text-ink-soft"><%= client.contact_line %></span>
+        </div>
+        <span class="mono-label"><%= t("clients.types.#{client.client_type}") %></span>
+      <% end %>
+    <% end %>
+
+    <% if @clients.empty? %>
+      <p class="empty-state">
+        <% if @search_term.present? %>
+          Hledání „<%= @search_term %>" nic nenašlo.
+        <% else %>
+          Zatím tu nejsou žádní klienti. Založ prvního tlačítkem nahoře.
+        <% end %>
+      </p>
+    <% end %>
+  </div>
+<% end %>

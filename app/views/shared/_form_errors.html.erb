@@ -1,0 +1,10 @@
+<% if record.errors.any? %>
+  <div class="rounded-card border border-over-edge bg-over-pale px-4 py-3 text-[12.5px] text-over">
+    <b class="mb-1 block">Formulář se nepodařilo uložit:</b>
+    <ul class="list-disc pl-4">
+      <% record.errors.full_messages.each do |error_message| %>
+        <li><%= error_message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

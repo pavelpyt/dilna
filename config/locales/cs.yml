@@ -58,12 +58,35 @@ cs:
     models:
       account: Firma
       user: Uživatel
+      client: Klient
+      property: Místo
+      contact: Kontakt
     attributes:
       account:
         name: Název firmy
         slug: Adresa veřejného formuláře
         phone: Telefon
         email: E-mail
+      client:
+        client_type: Typ klienta
+        name: Název / jméno
+        company_registration_number: IČO
+        vat_identification_number: DIČ
+        email: E-mail
+        phone: Telefon
+        note: Poznámka
+      property:
+        label: Označení
+        street: Ulice a číslo
+        city: Město
+        postal_code: PSČ
+        note: Poznámka
+      contact:
+        first_name: Jméno
+        last_name: Příjmení
+        position: Funkce
+        email: E-mail
+        phone: Telefon
       user:
         first_name: Jméno
         last_name: Příjmení
@@ -81,6 +104,11 @@ cs:
     roles:
       owner: Majitel
       staff: Technik
+
+  clients:
+    types:
+      person: Osoba
+      company: Firma
 
   devise:
     failure:

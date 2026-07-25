@@ -1,0 +1,39 @@
+<%= form_with model: [ client, property ], class: "space-y-4" do |form| %>
+  <%= render "shared/form_errors", record: property %>
+
+  <div>
+    <%= form.label :label, class: "field-label" %>
+    <%= form.text_field :label, placeholder: "Hlavní provozovna", class: "field-input" %>
+  </div>
+
+  <div>
+    <%= form.label :street, class: "field-label" %>
+    <%= form.text_field :street, placeholder: "Bělehradská 45", class: "field-input" %>
+  </div>
+
+  <div class="grid gap-4 md:grid-cols-[1fr_2fr]">
+    <div>
+      <%= form.label :postal_code, class: "field-label" %>
+      <%= form.text_field :postal_code, placeholder: "120 00", class: "field-input" %>
+    </div>
+    <div>
+      <%= form.label :city, class: "field-label" %>
+      <%= form.text_field :city, placeholder: "Praha 2", class: "field-input" %>
+    </div>
+  </div>
+
+  <div>
+    <%= form.label :note, class: "field-label" %>
+    <%= form.text_area :note, rows: 3, placeholder: "Klíče u sousedky, uzávěr vody ve sklepě…", class: "field-input" %>
+  </div>
+
+  <div class="flex gap-2.5 pt-1">
+    <%= form.submit class: "btn btn-primary" %>
+    <%= link_to "Zrušit", client, class: "btn btn-ghost" %>
+    <% if property.persisted? %>
+      <%= button_to "Smazat", client_property_path(client, property), method: :delete,
+                    class: "btn btn-ghost ml-auto",
+                    form: { data: { turbo_confirm: "Opravdu smazat tohle místo?" } } %>
+    <% end %>
+  </div>
+<% end %>

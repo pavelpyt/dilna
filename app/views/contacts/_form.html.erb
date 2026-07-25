@@ -1,0 +1,40 @@
+<%= form_with model: [ client, contact ], class: "space-y-4" do |form| %>
+  <%= render "shared/form_errors", record: contact %>
+
+  <div class="grid gap-4 md:grid-cols-2">
+    <div>
+      <%= form.label :first_name, class: "field-label" %>
+      <%= form.text_field :first_name, class: "field-input" %>
+    </div>
+    <div>
+      <%= form.label :last_name, class: "field-label" %>
+      <%= form.text_field :last_name, class: "field-input" %>
+    </div>
+  </div>
+
+  <div>
+    <%= form.label :position, class: "field-label" %>
+    <%= form.text_field :position, placeholder: "provozní", class: "field-input" %>
+  </div>
+
+  <div class="grid gap-4 md:grid-cols-2">
+    <div>
+      <%= form.label :phone, class: "field-label" %>
+      <%= form.telephone_field :phone, class: "field-input" %>
+    </div>
+    <div>
+      <%= form.label :email, class: "field-label" %>
+      <%= form.email_field :email, class: "field-input" %>
+    </div>
+  </div>
+
+  <div class="flex gap-2.5 pt-1">
+    <%= form.submit class: "btn btn-primary" %>
+    <%= link_to "Zrušit", client, class: "btn btn-ghost" %>
+    <% if contact.persisted? %>
+      <%= button_to "Smazat", client_contact_path(client, contact), method: :delete,
+                    class: "btn btn-ghost ml-auto",
+                    form: { data: { turbo_confirm: "Opravdu smazat tenhle kontakt?" } } %>
+    <% end %>
+  </div>
+<% end %>

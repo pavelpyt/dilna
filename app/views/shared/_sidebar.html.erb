@@ -10,10 +10,11 @@
   </div>
 
   <%= render NavItemComponent.new(label: "Přehled", path: root_path, icon: :dashboard, active: nav_item_active?(root_path)) %>
+  <%= render NavItemComponent.new(label: "Klienti", path: clients_path, icon: :client, active: nav_item_active?(clients_path)) %>
 
   <div class="mt-auto border-t border-[#2E312D] px-2.5 pt-3">
     <div class="flex items-center gap-2.5 pt-3">
-      <%= render AvatarComponent.new(user: current_user, size: :large) %>
+      <%= render AvatarComponent.new(person: current_user, size: :large) %>
       <div class="min-w-0">
         <b class="block truncate text-[13px] font-semibold text-surface"><%= current_user.full_name %></b>
         <small class="text-[11px] text-[#7C7E76]"><%= t("users.roles.#{current_user.role}") %></small>

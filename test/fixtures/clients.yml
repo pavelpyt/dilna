@@ -1,0 +1,15 @@
+u_kotvy:
+  account: novak
+  client_type: company
+  name: Restaurace U Kotvy s.r.o.
+  company_registration_number: "24178901"
+  vat_identification_number: CZ24178901
+  phone: "+420 602 118 340"
+  email: provoz@ukotvy.cz
+
+svobodova:
+  account: novak
+  client_type: person
+  name: Jana Svobodová
+  phone: "+420 731 448 210"
+  email: jana.svobodova@email.cz
