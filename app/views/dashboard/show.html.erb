@@ -9,31 +9,69 @@
 <% end %>
 
 <div class="mb-6 grid gap-4 md:grid-cols-3">
-  <%= render StatCardComponent.new(label: "Nové poptávky", value: @new_inquiries.size) do %>
-    čekají na vyřízení
+  <%= render StatCardComponent.new(label: "Dnes naplánováno", value: @visits_today.size) do %>
+    termínů v kalendáři
   <% end %>
-  <%= render StatCardComponent.new(label: "Otevřené zakázky", value: @open_jobs_count) do %>
-    rozpracované nebo naplánované
+  <%= render StatCardComponent.new(label: "K fakturaci", value: number_to_currency(@ready_to_invoice_total)) do %>
+    dokončené zakázky bez faktury
   <% end %>
-  <%= render StatCardComponent.new(label: "Ceník", value: current_account.services.available.count) do %>
-    položek k dispozici
+  <%= render StatCardComponent.new(label: "Po splatnosti",
+                                   value: number_to_currency(@overdue_invoices.sum(&:total_with_vat)),
+                                   tone: @overdue_invoices.any? ? :over : :ink) do %>
+    <%= @overdue_invoices.size %> faktur po splatnosti
   <% end %>
 </div>
 
-<%= render CardComponent.new(title: "Vyžaduje pozornost", padded: false) do %>
-  <div class="list-rows">
-    <% @new_inquiries.each do |inquiry| %>
-      <%= link_to inquiry, class: "list-row" do %>
-        <div class="min-w-0 flex-1">
-          <b class="block text-[14.5px] font-semibold"><%= inquiry.title %></b>
-          <span class="text-[12.5px] text-ink-soft"><%= inquiry.client.name %> · nová poptávka z webu</span>
-        </div>
-        <%= render TagComponent.new(label: "Nová", tone: :live) %>
+<div class="grid gap-4 lg:grid-cols-[1.6fr_1fr]">
+  <%= render CardComponent.new(title: "Zakázky na dnešek", padded: false) do %>
+    <div class="list-rows">
+      <% @visits_today.each do |visit| %>
+        <%= link_to visit.job, class: "list-row" do %>
+          <span class="w-[52px] flex-none font-mono text-[13px] font-bold"><%= l(visit.starts_at, format: :hour_and_minute) %></span>
+          <div class="min-w-0 flex-1">
+            <b class="block text-[14.5px] font-semibold"><%= visit.job.title %></b>
+            <span class="text-[12.5px] text-ink-soft">
+              <%= visit.job.client.name %><%= " · #{visit.job.property.display_label}" if visit.job.property %>
+            </span>
+          </div>
+          <%= render TagComponent.new(label: job_status_label(visit.job), tone: job_status_tone(visit.job)) %>
+          <% if visit.user %>
+            <%= render AvatarComponent.new(person: visit.user, size: :small) %>
+          <% end %>
+        <% end %>
       <% end %>
-    <% end %>
 
-    <% if @new_inquiries.empty? %>
-      <p class="empty-state">Nic nečeká. Nové poptávky z webu se objeví tady.</p>
-    <% end %>
-  </div>
-<% end %>
+      <% if @visits_today.empty? %>
+        <p class="empty-state">Na dnešek není naplánovaný žádný termín.</p>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%= render CardComponent.new(title: "Vyžaduje pozornost", padded: false) do %>
+    <div class="list-rows">
+      <% @overdue_invoices.each do |invoice| %>
+        <%= link_to invoice.job, class: "list-row" do %>
+          <div class="min-w-0 flex-1">
+            <b class="block text-[14.5px] font-semibold">Faktura <%= invoice.number %></b>
+            <span class="text-[12.5px] text-ink-soft"><%= invoice.job.client.name %> · <%= invoice.days_overdue %> dní po splatnosti</span>
+          </div>
+          <%= render TagComponent.new(label: "Po splatnosti", tone: :over) %>
+        <% end %>
+      <% end %>
+
+      <% @new_inquiries.each do |inquiry| %>
+        <%= link_to inquiry, class: "list-row" do %>
+          <div class="min-w-0 flex-1">
+            <b class="block text-[14.5px] font-semibold"><%= inquiry.title %></b>
+            <span class="text-[12.5px] text-ink-soft"><%= inquiry.client.name %> · nová poptávka z webu</span>
+          </div>
+          <%= render TagComponent.new(label: "Nová", tone: :live) %>
+        <% end %>
+      <% end %>
+
+      <% if @overdue_invoices.empty? && @new_inquiries.empty? %>
+        <p class="empty-state">Nic nečeká. Nové poptávky a faktury po splatnosti se objeví tady.</p>
+      <% end %>
+    </div>
+  <% end %>
+</div>

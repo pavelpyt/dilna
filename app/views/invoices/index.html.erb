@@ -1,0 +1,36 @@
+<% content_for :title, "Faktury — Dílna" %>
+<% content_for :breadcrumb, "Peníze" %>
+<% content_for :page_title, "Faktury" %>
+
+<div class="mb-5 flex items-center gap-2.5 rounded-card border border-petrol-edge bg-petrol-pale px-4 py-3 text-[12.5px] text-petrol-ink">
+  <%= render IconComponent.new(name: :info, css_class: "size-4 flex-none") %>
+  Daňový doklad vystavuje Fakturoid, tady je jen jeho zrcadlo. V MVP běží napojení na mocku — faktura vznikne, ale nikam se neodešle.
+</div>
+
+<div class="mb-6">
+  <%= render StatCardComponent.new(label: "Nezaplaceno", value: number_to_currency(@unpaid_total)) do %>
+    celkem na neuhrazených fakturách
+  <% end %>
+</div>
+
+<%= render CardComponent.new(padded: false) do %>
+  <div class="list-rows">
+    <% @invoices.each do |invoice| %>
+      <%= link_to invoice.job, class: "list-row" do %>
+        <span class="w-[74px] flex-none font-mono text-[12px] font-bold text-ink-soft"><%= invoice.number %></span>
+        <div class="min-w-0 flex-1">
+          <b class="block text-[14.5px] font-semibold"><%= invoice.job.client.name %></b>
+          <span class="text-[12.5px] text-ink-soft">
+            <%= invoice.job.title %> · splatnost <%= l(invoice.due_on, format: :default) %>
+          </span>
+        </div>
+        <%= invoice_status_tag(invoice) %>
+        <span class="font-mono text-sm font-semibold tabular-nums"><%= number_to_currency(invoice.total_with_vat) %></span>
+      <% end %>
+    <% end %>
+
+    <% if @invoices.empty? %>
+      <p class="empty-state">Zatím žádné faktury.</p>
+    <% end %>
+  </div>
+<% end %>

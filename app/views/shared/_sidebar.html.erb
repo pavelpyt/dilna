@@ -18,8 +18,9 @@
 
   <% if current_user.owner? %>
     <div class="px-2.5 pb-1.5 pt-3.5 font-mono text-[10px] uppercase tracking-[0.16em] text-[#7C7E76]">Provoz</div>
+    <%= render NavItemComponent.new(label: "Faktury", path: invoices_path, icon: :invoice, active: nav_item_active?(invoices_path)) %>
     <%= render NavItemComponent.new(label: "Tým a hodiny", path: users_path, icon: :team, active: nav_item_active?(users_path)) %>
-    <%= render NavItemComponent.new(label: "Ceník", path: services_path, icon: :invoice, active: nav_item_active?(services_path)) %>
+    <%= render NavItemComponent.new(label: "Ceník", path: services_path, icon: :job, active: nav_item_active?(services_path)) %>
     <%= render NavItemComponent.new(label: "Šablony checklistů", path: checklist_templates_path, icon: :check, active: nav_item_active?(checklist_templates_path)) %>
   <% end %>
 

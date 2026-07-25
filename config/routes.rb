@@ -18,10 +18,12 @@ Rails.application.routes.draw do
     resources :checklist_items, only: [ :create, :update, :destroy ]
     resources :job_checklists, only: [ :create ]
     resources :time_entries, only: [ :create ]
+    resource :invoice, only: [ :create ]
   end
 
   resources :time_entries, only: [ :create, :update ]
   resources :checklist_templates, except: [ :show ]
+  resources :invoices, only: [ :index ]
 
   get "dnesek", to: "today#show", as: :today
 
@@ -44,6 +46,7 @@ Rails.application.routes.draw do
   # Client hub — zákazníkova stránka jedné zakázky. V adrese je jen náhodný token.
   get "z/:token", to: "public/client_hub#show", as: :client_hub
   post "z/:token/nabidka", to: "public/quote_decisions#create", as: :client_hub_quote_decision
+  post "z/:token/platba", to: "public/payments#create", as: :client_hub_payment
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.

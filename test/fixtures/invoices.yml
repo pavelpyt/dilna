@@ -1,0 +1,8 @@
+servis_faktura:
+  job: servis_dokonceny
+  external_id: fakturoid-mock-test
+  number: "2026-0001"
+  status: issued
+  total_with_vat: 2286.90
+  due_on: <%= 10.days.ago.to_date.iso8601 %>
+  pdf_url: https://app.fakturoid.cz/mock/faktury/2026-0001.pdf
