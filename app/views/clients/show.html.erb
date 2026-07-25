@@ -49,6 +49,26 @@
       </div>
     <% end %>
 
+    <%= render CardComponent.new(title: "Faktury", padded: false) do %>
+      <div class="list-rows">
+        <% @invoices.each do |invoice| %>
+          <%= link_to invoice.job, class: "list-row" do %>
+            <div class="min-w-0 flex-1">
+              <b class="block font-mono text-[14.5px] font-semibold"><%= invoice.number %></b>
+              <span class="text-[12.5px] text-ink-soft">
+                splatnost <%= l(invoice.due_on, format: :default) %> · <%= number_to_currency(invoice.total_with_vat) %>
+              </span>
+            </div>
+            <%= invoice_status_tag(invoice) %>
+          <% end %>
+        <% end %>
+
+        <% if @invoices.empty? %>
+          <p class="empty-state">Klient zatím nemá žádnou fakturu.</p>
+        <% end %>
+      </div>
+    <% end %>
+
     <%= render CardComponent.new(title: "Poznámky") do %>
       <% if @client.note.present? %>
         <p class="whitespace-pre-line text-[13.5px]"><%= @client.note %></p>

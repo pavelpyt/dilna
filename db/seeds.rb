@@ -209,6 +209,14 @@ if TimeEntry.none?
   owner.time_entries.create!(job: havarie, started_at: Time.current.change(hour: 7, min: 12), ended_at: Time.current.change(hour: 11, min: 40))
 end
 
+# Dokončený servis kotle pošleme přes fakturu, ať je co ukázat v přehledu.
+if servis_kotle.invoice.nil?
+  Invoicing::InvoiceCreator.new.create_invoice_for_job(servis_kotle)
+  servis_kotle.change_status_to!("invoiced")
+  Payments::PaymentLinkCreator.new.create_payment_link_for_invoice(servis_kotle.invoice)
+  servis_kotle.invoice.update!(due_on: 10.days.ago.to_date)
+end
+
 incoming_requests = [
   {
     client_name: "Kavárna Zrno s.r.o.",

@@ -10,6 +10,7 @@ class ClientsController < ApplicationController
     @properties = @client.properties.order(:label, :street)
     @contacts = @client.contacts.order(:last_name, :first_name)
     @jobs = @client.jobs.includes(:property).newest_first
+    @invoices = @client.invoices.includes(:job).newest_first
   end
 
   def new

@@ -7,6 +7,7 @@ module Public
     def show
       @quote = @job.current_quote
       @next_visit = @job.next_visit
+      @invoice = @job.invoice
     end
   end
 end

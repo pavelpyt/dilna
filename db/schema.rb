@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_25_212331) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_25_213126) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gist"
   enable_extension "pg_catalog.plpgsql"
@@ -108,6 +108,21 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_25_212331) do
     t.index ["client_id"], name: "index_contacts_on_client_id"
   end
 
+  create_table "invoices", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.date "due_on", null: false
+    t.string "external_id"
+    t.bigint "job_id", null: false
+    t.string "number", null: false
+    t.datetime "paid_at"
+    t.string "payment_url"
+    t.string "pdf_url"
+    t.string "status", default: "issued", null: false
+    t.decimal "total_with_vat", precision: 10, scale: 2, default: "0.0", null: false
+    t.datetime "updated_at", null: false
+    t.index ["job_id"], name: "index_invoices_on_job_id", unique: true
+  end
+
   create_table "job_items", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "description", null: false
@@ -160,6 +175,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_25_212331) do
     t.bigint "user_id", null: false
     t.index ["job_id"], name: "index_notes_on_job_id"
     t.index ["user_id"], name: "index_notes_on_user_id"
+  end
+
+  create_table "payments", force: :cascade do |t|
+    t.decimal "amount", precision: 10, scale: 2, default: "0.0", null: false
+    t.datetime "created_at", null: false
+    t.string "external_id"
+    t.bigint "invoice_id", null: false
+    t.datetime "paid_at"
+    t.string "status", default: "pending", null: false
+    t.datetime "updated_at", null: false
+    t.index ["invoice_id"], name: "index_payments_on_invoice_id"
   end
 
   create_table "properties", force: :cascade do |t|
@@ -263,6 +289,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_25_212331) do
   add_foreign_key "checklist_templates", "accounts"
   add_foreign_key "clients", "accounts"
   add_foreign_key "contacts", "clients"
+  add_foreign_key "invoices", "jobs"
   add_foreign_key "job_items", "jobs"
   add_foreign_key "job_items", "services"
   add_foreign_key "job_photos", "jobs"
@@ -272,6 +299,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_25_212331) do
   add_foreign_key "jobs", "properties"
   add_foreign_key "notes", "jobs"
   add_foreign_key "notes", "users"
+  add_foreign_key "payments", "invoices"
   add_foreign_key "properties", "clients"
   add_foreign_key "public_tokens", "jobs"
   add_foreign_key "quotes", "jobs"

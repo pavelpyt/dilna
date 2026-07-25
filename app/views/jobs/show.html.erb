@@ -167,6 +167,27 @@
       <% end %>
     <% end %>
 
+    <%= render CardComponent.new(title: "Faktura") do %>
+      <% if @job.invoice %>
+        <div class="flex items-center justify-between">
+          <span class="text-[13px]">
+            <b class="font-mono"><%= @job.invoice.number %></b> ·
+            <%= number_to_currency(@job.invoice.total_with_vat) %>
+          </span>
+          <%= invoice_status_tag(@job.invoice) %>
+        </div>
+        <p class="mt-1.5 text-[12px] text-ink-soft">Splatnost <%= l(@job.invoice.due_on, format: :default) %>.</p>
+        <% if @job.invoice.pdf_url.present? %>
+          <%= link_to "Doklad ve Fakturoidu", @job.invoice.pdf_url, target: "_blank", rel: "noopener",
+                      class: "mt-2 block break-all font-mono text-[11px] text-petrol underline" %>
+        <% end %>
+      <% elsif policy(Invoice).create? && @job.can_change_status_to?("invoiced") %>
+        <%= button_to "Vystavit fakturu", job_invoice_path(@job), class: "btn btn-primary btn-sm w-full justify-center" %>
+      <% else %>
+        <p class="text-sm text-ink-soft">Fakturu jde vystavit z dokončené zakázky.</p>
+      <% end %>
+    <% end %>
+
     <%= render CardComponent.new(title: "Nabídka a client hub") do %>
       <% if @quote %>
         <div class="mb-3 flex items-center justify-between">

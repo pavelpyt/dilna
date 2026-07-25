@@ -4,6 +4,7 @@ class Account < ApplicationRecord
   has_many :services, dependent: :destroy
   has_many :jobs, dependent: :destroy
   has_many :visits, through: :jobs
+  has_many :invoices, through: :jobs
   has_many :checklist_templates, dependent: :destroy
   has_many :time_entries, through: :users
 
