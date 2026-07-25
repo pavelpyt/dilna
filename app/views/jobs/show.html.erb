@@ -128,6 +128,26 @@
       <% end %>
     <% end %>
 
+    <%= render CardComponent.new(title: "Nabídka a client hub") do %>
+      <% if @quote %>
+        <div class="mb-3 flex items-center justify-between">
+          <span class="text-[13px]">Nabídka za <b><%= number_to_currency(@quote.total_with_vat) %></b></span>
+          <%= render TagComponent.new(label: t("quotes.statuses.#{@quote.status}"), tone: quote_status_tone(@quote)) %>
+        </div>
+        <% if @quote.valid_until %>
+          <p class="mb-3 text-[12px] text-ink-soft">Platí do <%= l(@quote.valid_until, format: :default) %>.</p>
+        <% end %>
+      <% elsif @job.can_change_status_to?("quote_sent") %>
+        <%= button_to "Vystavit nabídku", job_quotes_path(@job), class: "btn btn-primary btn-sm mb-3 w-full justify-center" %>
+      <% else %>
+        <p class="mb-3 text-sm text-ink-soft">Nabídku jde vystavit z naceněné zakázky.</p>
+      <% end %>
+
+      <div class="mono-label">Odkaz pro zákazníka</div>
+      <%= link_to @client_hub_url, @client_hub_url, target: "_blank", rel: "noopener",
+                  class: "mt-1 block break-all font-mono text-[11px] text-petrol underline" %>
+    <% end %>
+
     <%= render CardComponent.new(title: "Termíny") do %>
       <div class="mb-4 space-y-2">
         <% @visits.each do |visit| %>

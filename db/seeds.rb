@@ -156,6 +156,15 @@ zamereni.assign_attributes(
 )
 zamereni.save!
 
+# Zaměření je naceněné — vystavíme z něj nabídku, ať je co ukázat v client hubu.
+if zamereni.job_items.empty?
+  zamereni.job_items.create!(description: "Instalatérské práce", quantity: 8, unit: "hod", unit_price: 650, position: 1)
+  zamereni.job_items.create!(description: "Materiál — trubky, fitinky", quantity: 1, unit: "sada", unit_price: 3_480, position: 2)
+  zamereni.job_items.create!(description: "Demontáž a likvidace", quantity: 1, unit: "ks", unit_price: 1_200, position: 3)
+end
+
+zamereni.issue_quote! if zamereni.status == "priced"
+
 tomas = User.find_by!(email: "tomas@novak-topeni.cz")
 jakub = User.find_by!(email: "jakub@novak-topeni.cz")
 

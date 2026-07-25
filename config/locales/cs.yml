@@ -66,6 +66,8 @@ cs:
       service: Položka ceníku
       note: Poznámka
       job_photo: Fotka
+      visit: Termín
+      quote: Nabídka
     attributes:
       account:
         name: Název firmy
@@ -92,6 +94,11 @@ cs:
         vat_rate: Sazba DPH (%)
         margin_percent: Marže (%)
         archived: Archivovat
+      visit:
+        user_id: Technik
+        starts_at: Začátek
+        ends_at: Konec
+        note: Poznámka
       note:
         body: Poznámka
       job_photo:
@@ -139,6 +146,13 @@ cs:
     types:
       person: Osoba
       company: Firma
+
+  quotes:
+    statuses:
+      draft: Koncept
+      sent: Čeká na schválení
+      approved: Schválena
+      rejected: Zamítnuta
 
   jobs:
     statuses:

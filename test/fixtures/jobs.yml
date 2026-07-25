@@ -13,3 +13,11 @@ baterie:
   number: "2026-0002"
   title: Výměna baterie v koupelně
   status: approved
+
+baterie_naceneno:
+  account: novak
+  client: u_kotvy
+  property: u_kotvy_provozovna
+  number: "2026-0003"
+  title: Rozvody vody v kuchyni
+  status: quote_sent

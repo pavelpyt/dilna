@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_25_210623) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_25_211638) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gist"
   enable_extension "pg_catalog.plpgsql"
@@ -147,6 +147,27 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_25_210623) do
     t.index ["client_id"], name: "index_properties_on_client_id"
   end
 
+  create_table "public_tokens", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "expires_at"
+    t.bigint "job_id", null: false
+    t.string "token", null: false
+    t.datetime "updated_at", null: false
+    t.index ["job_id"], name: "index_public_tokens_on_job_id"
+    t.index ["token"], name: "index_public_tokens_on_token", unique: true
+  end
+
+  create_table "quotes", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "decided_at"
+    t.bigint "job_id", null: false
+    t.datetime "sent_at"
+    t.string "status", default: "draft", null: false
+    t.datetime "updated_at", null: false
+    t.date "valid_until"
+    t.index ["job_id"], name: "index_quotes_on_job_id"
+  end
+
   create_table "services", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.boolean "archived", default: false, null: false
@@ -207,6 +228,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_25_210623) do
   add_foreign_key "notes", "jobs"
   add_foreign_key "notes", "users"
   add_foreign_key "properties", "clients"
+  add_foreign_key "public_tokens", "jobs"
+  add_foreign_key "quotes", "jobs"
   add_foreign_key "services", "accounts"
   add_foreign_key "users", "accounts"
   add_foreign_key "visits", "jobs"

@@ -1,0 +1,80 @@
+<% content_for :title, "#{@job.title} — #{current_account.name}" %>
+<% content_for :public_title, "Dobrý den, #{@job.client.name}" %>
+<% content_for :public_subtitle, client_hub_subtitle(@job, @quote) %>
+
+<div class="mb-3 rounded-card border border-line p-3.5">
+  <div class="mono-label">Zakázka · #<%= @job.number %></div>
+  <b class="mt-0.5 block text-sm"><%= @job.title %></b>
+  <div class="mt-2">
+    <%= render TagComponent.new(label: job_status_label(@job), tone: job_status_tone(@job)) %>
+  </div>
+</div>
+
+<% if @quote %>
+  <div class="mb-3 rounded-card border border-line p-3.5">
+    <div class="mono-label">Nabídka</div>
+    <b class="mt-0.5 block text-sm"><%= @job.title %></b>
+
+    <div class="mt-2.5">
+      <% @quote.job_items.each do |job_item| %>
+        <div class="flex justify-between py-1 text-[13px]">
+          <span><%= job_item.description %></span>
+          <span class="font-mono tabular-nums"><%= number_with_precision(job_item.total_without_vat, precision: 0) %></span>
+        </div>
+      <% end %>
+
+      <div class="mt-1.5 flex justify-between border-t border-line pt-2.5 font-display text-[15px] font-extrabold">
+        <span>Celkem s DPH</span>
+        <span><%= number_to_currency(@quote.total_with_vat) %></span>
+      </div>
+    </div>
+
+    <% if @quote.valid_until %>
+      <p class="mt-2 text-[12px] text-ink-soft">Nabídka platí do <%= l(@quote.valid_until, format: :default) %>.</p>
+    <% end %>
+  </div>
+
+  <% if @quote.waiting_for_customer? %>
+    <%= button_to client_hub_quote_decision_path(params[:token], decision: "approve"),
+                  class: "btn btn-primary w-full justify-center" do %>
+      <%= render IconComponent.new(name: :check, css_class: "size-4", stroke_width: "2") %>
+      Schválit nabídku
+    <% end %>
+
+    <%= button_to "Nabídku nechci", client_hub_quote_decision_path(params[:token], decision: "reject"),
+                  class: "btn btn-ghost mt-2 w-full justify-center" %>
+  <% elsif @quote.approved? %>
+    <div class="rounded-card border border-paid-edge bg-paid-pale px-4 py-3 text-[12.5px] text-paid">
+      Nabídku máte schválenou. Děkujeme.
+    </div>
+  <% elsif @quote.rejected? %>
+    <div class="rounded-card border border-line bg-surface-muted px-4 py-3 text-[12.5px] text-ink-soft">
+      Nabídku jste zamítli.
+    </div>
+  <% elsif @quote.expired? %>
+    <div class="rounded-card border border-due-edge bg-due-pale px-4 py-3 text-[12.5px] text-due">
+      Platnost nabídky vypršela. Ozvěte se nám, připravíme novou.
+    </div>
+  <% end %>
+<% end %>
+
+<% if @next_visit %>
+  <div class="mt-3.5 rounded-card border border-line p-3.5">
+    <div class="mono-label">Nejbližší termín</div>
+    <b class="mt-0.5 block text-sm"><%= l(@next_visit.starts_at, format: :long) %></b>
+    <% if @next_visit.user %>
+      <p class="mt-1.5 text-[13px] text-ink-soft">Technik: <%= @next_visit.user.full_name %></p>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @job.property %>
+  <div class="mt-3.5 rounded-card border border-line p-3.5">
+    <div class="mono-label">Místo</div>
+    <b class="mt-0.5 block text-sm"><%= @job.property.full_address %></b>
+  </div>
+<% end %>
+
+<p class="mt-4 text-center text-[12.5px] text-ink-soft">
+  Něco nesedí? Zavolejte na <b class="text-ink"><%= current_account.phone.presence || "naše číslo" %></b>.
+</p>
