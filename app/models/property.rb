@@ -1,5 +1,6 @@
 class Property < ApplicationRecord
   belongs_to :client
+  has_many :jobs, dependent: :nullify
 
   validates :street, presence: true
   validates :city, presence: true

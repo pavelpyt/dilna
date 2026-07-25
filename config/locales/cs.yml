@@ -61,12 +61,42 @@ cs:
       client: Klient
       property: Místo
       contact: Kontakt
+      job: Zakázka
+      job_item: Položka
+      service: Položka ceníku
+      note: Poznámka
+      job_photo: Fotka
     attributes:
       account:
         name: Název firmy
         slug: Adresa veřejného formuláře
         phone: Telefon
         email: E-mail
+      job:
+        client_id: Klient
+        property_id: Místo
+        title: Název zakázky
+        description: Zadání
+        status: Stav
+      job_item:
+        service_id: Z ceníku
+        description: Popis
+        quantity: Množství
+        unit: Jednotka
+        unit_price: Cena za jednotku
+        vat_rate: Sazba DPH
+      service:
+        name: Název
+        unit: Jednotka
+        unit_price: Cena
+        vat_rate: Sazba DPH (%)
+        margin_percent: Marže (%)
+        archived: Archivovat
+      note:
+        body: Poznámka
+      job_photo:
+        image: Fotka
+        caption: Popis
       client:
         client_type: Typ klienta
         name: Název / jméno
@@ -109,6 +139,21 @@ cs:
     types:
       person: Osoba
       company: Firma
+
+  jobs:
+    statuses:
+      inquiry: Poptávka
+      priced: Naceněno
+      quote_sent: Nabídka odeslána
+      approved: Schváleno
+      scheduled: Naplánováno
+      in_progress: Probíhá
+      completed: Dokončeno
+      invoiced: Fakturováno
+      paid: Zaplaceno
+      complaint: Reklamace
+      rejected: Zamítnuto
+      cancelled: Zrušeno
 
   devise:
     failure:

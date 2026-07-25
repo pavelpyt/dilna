@@ -10,7 +10,11 @@
   </div>
 
   <%= render NavItemComponent.new(label: "Přehled", path: root_path, icon: :dashboard, active: nav_item_active?(root_path)) %>
+  <%= render NavItemComponent.new(label: "Zakázky", path: jobs_path, icon: :job, active: nav_item_active?(jobs_path)) %>
   <%= render NavItemComponent.new(label: "Klienti", path: clients_path, icon: :client, active: nav_item_active?(clients_path)) %>
+
+  <div class="px-2.5 pb-1.5 pt-3.5 font-mono text-[10px] uppercase tracking-[0.16em] text-[#7C7E76]">Nastavení</div>
+  <%= render NavItemComponent.new(label: "Ceník", path: services_path, icon: :invoice, active: nav_item_active?(services_path)) %>
 
   <div class="mt-auto border-t border-[#2E312D] px-2.5 pt-3">
     <div class="flex items-center gap-2.5 pt-3">

@@ -1,0 +1,32 @@
+<% content_for :title, "Ceník — Dílna" %>
+<% content_for :breadcrumb, "Nastavení" %>
+<% content_for :page_title, "Ceník" %>
+<% content_for :page_actions do %>
+  <%= link_to new_service_path, class: "btn btn-primary btn-sm" do %>
+    <%= render IconComponent.new(name: :plus, css_class: "size-4", stroke_width: "2") %>
+    Nová položka
+  <% end %>
+<% end %>
+
+<%= render CardComponent.new(padded: false) do %>
+  <div class="list-rows">
+    <% @services.each do |service| %>
+      <%= link_to edit_service_path(service), class: "list-row" do %>
+        <div class="min-w-0 flex-1">
+          <b class="block text-[14.5px] font-semibold"><%= service.name %></b>
+          <span class="text-[12.5px] text-ink-soft">
+            za <%= service.unit %> · DPH <%= service.vat_rate %> %<%= " · marže #{service.margin_percent} %" if service.margin_percent %>
+          </span>
+        </div>
+        <% if service.archived? %>
+          <%= render TagComponent.new(label: "Archiv", tone: :plain) %>
+        <% end %>
+        <span class="font-mono text-sm font-semibold tabular-nums"><%= number_to_currency(service.unit_price) %></span>
+      <% end %>
+    <% end %>
+
+    <% if @services.empty? %>
+      <p class="empty-state">Ceník je prázdný. Přidej první položku tlačítkem nahoře.</p>
+    <% end %>
+  </div>
+<% end %>

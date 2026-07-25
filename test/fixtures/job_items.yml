@@ -1,0 +1,17 @@
+havarie_prace:
+  job: havarie
+  description: Instalatérské práce
+  quantity: 2.5
+  unit: hod
+  unit_price: 650.0
+  vat_rate: 21
+  position: 1
+
+havarie_material:
+  job: havarie
+  description: Materiál — spojka, těsnění, koleno
+  quantity: 1
+  unit: sada
+  unit_price: 840.0
+  vat_rate: 21
+  position: 2

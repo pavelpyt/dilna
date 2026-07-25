@@ -1,0 +1,16 @@
+instalaterske_prace:
+  account: novak
+  name: Instalatérské práce
+  unit: hod
+  unit_price: 650.0
+  vat_rate: 21
+  margin_percent: 55
+  archived: false
+
+archivovana:
+  account: novak
+  name: Stará položka
+  unit: ks
+  unit_price: 100.0
+  vat_rate: 21
+  archived: true

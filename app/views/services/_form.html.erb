@@ -1,0 +1,45 @@
+<%= form_with model: service, class: "space-y-4" do |form| %>
+  <%= render "shared/form_errors", record: service %>
+
+  <div>
+    <%= form.label :name, class: "field-label" %>
+    <%= form.text_field :name, placeholder: "Instalatérské práce", class: "field-input" %>
+  </div>
+
+  <div class="grid gap-4 md:grid-cols-2">
+    <div>
+      <%= form.label :unit_price, class: "field-label" %>
+      <%= form.number_field :unit_price, step: 0.01, class: "field-input" %>
+    </div>
+    <div>
+      <%= form.label :unit, class: "field-label" %>
+      <%= form.select :unit, service_unit_options, {}, class: "field-input" %>
+    </div>
+  </div>
+
+  <div class="grid gap-4 md:grid-cols-2">
+    <div>
+      <%= form.label :vat_rate, class: "field-label" %>
+      <%= form.number_field :vat_rate, class: "field-input" %>
+    </div>
+    <div>
+      <%= form.label :margin_percent, class: "field-label" %>
+      <%= form.number_field :margin_percent, class: "field-input" %>
+    </div>
+  </div>
+
+  <label class="flex items-center gap-2 text-[13px]">
+    <%= form.check_box :archived, class: "size-4 rounded border-line-strong" %>
+    Nenabízet při zakládání položek
+  </label>
+
+  <div class="flex gap-2.5 pt-1">
+    <%= form.submit class: "btn btn-primary" %>
+    <%= link_to "Zrušit", services_path, class: "btn btn-ghost" %>
+    <% if service.persisted? %>
+      <%= button_to "Smazat", service_path(service), method: :delete,
+                    class: "btn btn-ghost ml-auto",
+                    form: { data: { turbo_confirm: "Opravdu smazat tuhle položku ceníku?" } } %>
+    <% end %>
+  </div>
+<% end %>

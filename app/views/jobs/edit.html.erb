@@ -1,0 +1,9 @@
+<% content_for :title, "Úprava zakázky — Dílna" %>
+<% content_for :breadcrumb, "Zakázka · #{@job.number}" %>
+<% content_for :page_title, "Úprava zakázky" %>
+
+<div class="max-w-[640px]">
+  <%= render CardComponent.new do %>
+    <%= render "form", job: @job, clients: current_account.clients.by_name %>
+  <% end %>
+</div>

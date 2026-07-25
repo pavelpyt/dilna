@@ -1,0 +1,35 @@
+<% content_for :title, "Zakázky — Dílna" %>
+<% content_for :breadcrumb, "Provoz" %>
+<% content_for :page_title, "Zakázky" %>
+<% content_for :page_actions do %>
+  <%= link_to new_job_path, class: "btn btn-primary btn-sm" do %>
+    <%= render IconComponent.new(name: :plus, css_class: "size-4", stroke_width: "2") %>
+    Nová zakázka
+  <% end %>
+<% end %>
+
+<%= form_with url: jobs_path, method: :get, class: "mb-5" do |form| %>
+  <%= form.select :stav, job_status_filter_options, { include_blank: "Všechny stavy", selected: @status_filter },
+                  class: "field-input max-w-[280px]", onchange: "this.form.requestSubmit()" %>
+<% end %>
+
+<%= render CardComponent.new(padded: false) do %>
+  <div class="list-rows">
+    <% @jobs.each do |job| %>
+      <%= link_to job, class: "list-row" do %>
+        <span class="w-[74px] flex-none font-mono text-[12px] font-bold text-ink-soft"><%= job.number %></span>
+        <div class="min-w-0 flex-1">
+          <b class="block text-[14.5px] font-semibold"><%= job.title %></b>
+          <span class="text-[12.5px] text-ink-soft">
+            <%= job.client.name %><%= " · #{job.property.display_label}" if job.property %>
+          </span>
+        </div>
+        <%= render TagComponent.new(label: job_status_label(job), tone: job_status_tone(job)) %>
+      <% end %>
+    <% end %>
+
+    <% if @jobs.empty? %>
+      <p class="empty-state">Žádné zakázky v tomhle stavu.</p>
+    <% end %>
+  </div>
+<% end %>
