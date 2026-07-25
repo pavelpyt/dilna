@@ -1,0 +1,20 @@
+<div data-controller="install-prompt"
+     class="mb-5 flex flex-wrap items-center gap-3 rounded-card border border-line bg-surface px-4 py-3 text-[12.5px] shadow-card">
+  <%= render IconComponent.new(name: :info, css_class: "size-4 flex-none stroke-petrol") %>
+
+  <div class="min-w-0 flex-1">
+    <b class="block">Dílnu si můžeš přidat na plochu telefonu.</b>
+    <span data-install-prompt-target="iosHint" hidden class="text-ink-soft">
+      V Safari klepni na Sdílet a pak na „Přidat na plochu".
+    </span>
+  </div>
+
+  <button type="button" data-install-prompt-target="androidButton" hidden
+          data-action="install-prompt#install" class="btn btn-primary btn-sm">
+    Přidat na plochu
+  </button>
+
+  <button type="button" data-action="install-prompt#dismiss" class="btn btn-ghost btn-sm">
+    Teď ne
+  </button>
+</div>

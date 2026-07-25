@@ -3,6 +3,11 @@ Rails.application.routes.draw do
 
   root "dashboard#show"
 
+  # PWA — manifest a service worker, ať jde appka přidat na plochu.
+  # Formát je vynucený, prohlížeč si oba soubory tahá bez přípony.
+  get "manifest" => "rails/pwa#manifest", as: :pwa_manifest, defaults: { format: :json }
+  get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker, defaults: { format: :js }
+
   resources :clients do
     resources :properties, only: [ :new, :create, :edit, :update, :destroy ]
     resources :contacts, only: [ :new, :create, :edit, :update, :destroy ]
