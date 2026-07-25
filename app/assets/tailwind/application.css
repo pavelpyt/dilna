@@ -102,6 +102,23 @@
     @apply px-[18px] py-8 text-center text-sm text-ink-soft;
   }
 
+  /* Obsah jedné události v kalendáři — vykresluje ho Stimulus controller. */
+  .fc-visit {
+    @apply overflow-hidden px-1.5 py-1 leading-tight text-white;
+  }
+
+  .fc-visit-time {
+    @apply font-mono text-[9.5px] font-bold opacity-85;
+  }
+
+  .fc-visit-title {
+    @apply truncate text-[11.5px] font-semibold;
+  }
+
+  .fc-visit-meta {
+    @apply truncate text-[10px] opacity-85;
+  }
+
   .field-label {
     @apply mb-1.5 block text-sm font-semibold text-ink;
   }

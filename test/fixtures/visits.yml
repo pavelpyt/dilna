@@ -1,0 +1,20 @@
+havarie_dopoledne:
+  job: havarie
+  user: owner
+  starts_at: <%= Time.zone.parse("2026-07-20 11:00").iso8601 %>
+  ends_at: <%= Time.zone.parse("2026-07-20 14:00").iso8601 %>
+  status: planned
+
+baterie_odpoledne:
+  job: baterie
+  user: technician
+  starts_at: <%= Time.zone.parse("2026-07-21 09:00").iso8601 %>
+  ends_at: <%= Time.zone.parse("2026-07-21 11:00").iso8601 %>
+  status: planned
+
+havarie_druhy_den:
+  job: havarie
+  user: owner
+  starts_at: <%= Time.zone.parse("2026-07-22 08:00").iso8601 %>
+  ends_at: <%= Time.zone.parse("2026-07-22 10:00").iso8601 %>
+  status: planned

@@ -13,7 +13,11 @@ Rails.application.routes.draw do
     resources :job_items, only: [ :create, :destroy ]
     resources :notes, only: [ :create, :destroy ]
     resources :job_photos, only: [ :create, :destroy ]
+    resources :visits, only: [ :create, :destroy ]
   end
+
+  get "kalendar", to: "calendar#show", as: :calendar
+  resources :visits, only: [ :index, :update ]
 
   resources :services
 

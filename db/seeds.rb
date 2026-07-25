@@ -156,6 +156,29 @@ zamereni.assign_attributes(
 )
 zamereni.save!
 
+tomas = User.find_by!(email: "tomas@novak-topeni.cz")
+jakub = User.find_by!(email: "jakub@novak-topeni.cz")
+
+# Termíny v aktuálním týdnu, ať je kalendář po seedu čím naplnit.
+monday_this_week = Date.current.beginning_of_week
+
+planned_visits = [
+  { job: havarie, user: owner, day_offset: 0, from_hour: 11, to_hour: 14 },
+  { job: servis_kotle, user: tomas, day_offset: 1, from_hour: 8, to_hour: 11 },
+  { job: baterie, user: tomas, day_offset: 2, from_hour: 9, to_hour: 11 },
+  { job: zamereni, user: jakub, day_offset: 3, from_hour: 14, to_hour: 16 },
+  { job: havarie, user: jakub, day_offset: 4, from_hour: 7, to_hour: 9 }
+]
+
+planned_visits.each do |visit_attributes|
+  starts_at = (monday_this_week + visit_attributes[:day_offset].days).in_time_zone.change(hour: visit_attributes[:from_hour])
+  ends_at = (monday_this_week + visit_attributes[:day_offset].days).in_time_zone.change(hour: visit_attributes[:to_hour])
+
+  next if Visit.exists?(job: visit_attributes[:job], starts_at: starts_at)
+
+  visit_attributes[:job].visits.create!(user: visit_attributes[:user], starts_at: starts_at, ends_at: ends_at)
+end
+
 incoming_requests = [
   {
     client_name: "Kavárna Zrno s.r.o.",

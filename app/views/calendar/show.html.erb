@@ -1,0 +1,34 @@
+<% content_for :title, "Kalendář — Dílna" %>
+<% content_for :breadcrumb, "Plánování" %>
+<% content_for :page_title, "Kalendář" %>
+<% content_for :head do %>
+  <%= javascript_include_tag "fullcalendar" %>
+<% end %>
+
+<div class="mb-5 flex items-center gap-2.5 rounded-card border border-petrol-edge bg-petrol-pale px-4 py-3 text-[12.5px] text-petrol-ink">
+  <%= render IconComponent.new(name: :info, css_class: "size-4 flex-none") %>
+  Termíny se přesouvají tažením. Kolizi u jednoho technika odmítne sama databáze — dva termíny na jednoho člověka ve stejný čas nedáš.
+</div>
+
+<div data-controller="calendar"
+     data-calendar-events-url-value="<%= visits_path(format: :json) %>"
+     data-calendar-update-url-template-value="<%= visit_path(":id") %>">
+  <p data-calendar-target="errorMessage"
+     class="mb-3 hidden rounded-card border border-over-edge bg-over-pale px-4 py-3 text-[12.5px] text-over"></p>
+
+  <div data-calendar-target="container"
+       class="rounded-card border border-line bg-surface p-3 shadow-card"></div>
+</div>
+
+<div class="mt-4">
+  <%= render CardComponent.new(title: "Technici") do %>
+    <div class="flex flex-wrap gap-4">
+      <% @technicians.each do |technician| %>
+        <div class="flex items-center gap-2">
+          <%= render AvatarComponent.new(person: technician, size: :small) %>
+          <span class="text-[13px]"><%= technician.full_name %></span>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

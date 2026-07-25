@@ -6,6 +6,7 @@ class User < ApplicationRecord
 
   belongs_to :account
 
+  has_many :visits, dependent: :nullify
   has_many :notes, dependent: :destroy
   has_many :job_photos, dependent: :destroy
 
