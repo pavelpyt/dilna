@@ -63,6 +63,17 @@ Rails.application.configure do
   # Highlight code that triggered redirect in logs.
   config.action_dispatch.verbose_redirect_logs = true
 
+  # Sdílení běžícího serveru přes port forwarding ve VS Code (Microsoft Dev
+  # Tunnels). Bez tohohle Rails cizí Host hlavičku odmítne jako Blocked host.
+  config.hosts << /.*\.devtunnels\.ms\z/
+
+  # Vlastní doména navíc, když se sdílí přes něco jiného (ngrok, cloudflared).
+  config.hosts << ENV["DEV_TUNNEL_HOST"] if ENV["DEV_TUNNEL_HOST"].present?
+
+  # Tunel končí TLS u sebe a dovnitř posílá http. Bez tohohle by Rails
+  # porovnával https origin s http adresou a shodil každý formulář na CSRF.
+  config.action_dispatch.trusted_proxies = [ IPAddr.new("127.0.0.1"), IPAddr.new("::1") ]
+
   # Suppress logger output for asset requests.
   config.assets.quiet = true
 
