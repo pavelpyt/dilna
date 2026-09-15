@@ -12,7 +12,7 @@ Postaveno na Ruby on Rails 3.3 / PostgreSQL 17.
 
 Denní rozcestník — co je naplánované na dnešek, co čeká na fakturaci a co je po splatnosti. Cílem je, aby řemeslník po ránu na jedné obrazovce viděl, čemu se má věnovat.
 
-![Přehled](docs/screenshots/prehled.png)
+![Přehled](prehled.png)
 
 ---
 
@@ -20,7 +20,7 @@ Denní rozcestník — co je naplánované na dnešek, co čeká na fakturaci a 
 
 Každá firma má veřejný formulář na vlastní adrese (`/poptavka/:slug`). Když zákazník poptávku odešle, objeví se tady k přijetí nebo odmítnutí — a po přijetí se z ní stane zakázka. Řemeslník tak nemusí přepisovat nic ručně z mailu.
 
-![Poptávky](docs/screenshots/poptavky.png)
+![Poptávky](poptavky.png)
 
 ---
 
@@ -28,7 +28,7 @@ Každá firma má veřejný formulář na vlastní adrese (`/poptavka/:slug`). K
 
 Docházka, checklisty a export hodin. Mzdy vědomě neřeším — hodiny jdou ven do Excelu a mzdy počítá účetní. Držet payroll v MVP by znamenalo řešit legislativu, která se změnou jednoho zákona rozbije.
 
-![Tým a hodiny](docs/screenshots/tym-hodiny.png)
+![Tým a hodiny](tym-hodiny.png)
 
 ---
 
